@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Prenota una sessione — Ester Rinaldi</title>
+<meta name="description" content="Prenota una sessione con Ester Rinaldi, psicologa clinica. Prima consulenza gratuita. Sessioni online e in presenza, risposta entro 48 ore."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+<style>
+  /* Appointment page extras */
+  .info-3col {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 640px) { .info-3col { grid-template-columns: 1fr; } }
+  .info-tile {
+    padding: 28px 24px;
+    background: var(--white);
+    border: 1px solid var(--ash);
+    border-radius: var(--r-card);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+    transition: box-shadow .2s;
+  }
+  .info-tile:hover { box-shadow: var(--sh-subtle); }
+  .info-tile-icon {
+    width: 44px; height: 44px;
+    background: var(--ghost);
+    border-radius: var(--r-input);
+    display: grid; place-items: center;
+    margin: 0 auto;
+  }
+  .info-tile-icon svg { width: 20px; height: 20px; stroke: var(--slate); }
+  .info-tile-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--silver);
+  }
+  .info-tile-val {
+    font-family: var(--f-display);
+    font-size: 1.5rem;
+    font-weight: 300;
+    color: var(--ink);
+    line-height: 1.2;
+  }
+  .info-tile-sub {
+    font-size: 0.78rem;
+    color: var(--slate);
+    line-height: 1.5;
+  }
+  /* Free badge on form card */
+  .free-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 10px;
+    border-radius: var(--r-badge);
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    color: #166534;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+  }
+  /* Checkbox custom */
+  .form-consent label {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    cursor: pointer;
+  }
+  .form-consent input[type="checkbox"] {
+    width: 16px; height: 16px;
+    flex-shrink: 0;
+    margin-top: 2px;
+    accent-color: var(--ink);
+    cursor: pointer;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav" class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Ester Rinaldi<span data-i18n="nav.about">Psicologa Clinica</span></a>
+    <ul class="nav-links">
+      <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
+      <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
+      <li><a href="appointment.html" class="active" data-i18n="nav.appointment">Prenota una sessione</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="nav-lang"><button data-lang-btn="it" class="is-active">IT</button><button data-lang-btn="en">EN</button></div>
+      <a href="appointment.html" class="btn btn-filled btn-sm" data-i18n="nav.appointment">Prenota</a>
+      <button id="nav-burger" class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mob-nav" class="mob-nav">
+  <div id="mob-overlay" class="mob-overlay"></div>
+  <div class="mob-drawer">
+    <button id="mob-close" class="mob-close">✕</button>
+    <ul class="mob-links">
+      <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
+      <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
+      <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
+    </ul>
+    <div class="mob-lang-row"><button data-lang-btn="it" class="is-active">Italiano</button><button data-lang-btn="en">English</button></div>
+  </div>
+</div>
+
+<!-- PAGE HERO -->
+<div class="page-hero">
+  <div class="page-hero-inner">
+    <span class="label reveal" data-i18n="appt.ph.label">Prenota</span>
+    <h1 class="heading-lg reveal reveal-d1" data-i18n-html="appt.ph.title">Inizia il tuo <em>percorso</em>.</h1>
+    <p class="subheading reveal reveal-d2" style="max-width:520px;margin-top:16px" data-i18n="appt.ph.lead">Il primo passo è il più coraggioso. Sono qui per accoglierti con cura e senza giudizio.</p>
+  </div>
+</div>
+
+<!-- CONTACT GRID -->
+<section class="section">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- LEFT: info -->
+      <div class="contact-info reveal">
+
+        <div>
+          <p class="label" style="margin-bottom:12px" data-i18n="appt.info.label">Informazioni pratiche</p>
+          <h2 class="heading-sm" style="margin-bottom:24px" data-i18n="appt.info.title">Come funziona</h2>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-i18n="appt.d1.label">Sessione individuale</div>
+            <div class="contact-info-val" data-i18n="appt.d1.val">50 minuti per sessione</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-i18n="appt.d2.label">Frequenza</div>
+            <div class="contact-info-val" data-i18n="appt.d2.val">Settimanale o bisettimanale</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><polyline points="8 21 12 17 16 21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-i18n="appt.d3.label">Formato</div>
+            <div class="contact-info-val" data-i18n="appt.d3.val">Online (video sicuro) e in presenza</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81a19.79 19.79 0 01-3.07-8.68A2 2 0 012 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.06 6.06l1.27-.8a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 15.92z"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-i18n="appt.d4.label">Risposta</div>
+            <div class="contact-info-val" data-i18n="appt.d4.val">Entro 48 ore lavorative</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-i18n="appt.d5.label">Prima consulenza</div>
+            <div class="contact-info-val" data-i18n="appt.d5.val">Gratuita e senza impegno</div>
+          </div>
+        </div>
+
+        <div class="contact-info-item">
+          <div class="contact-info-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div>
+            <div class="contact-info-label" data-i18n="appt.d6.label">Email</div>
+            <div class="contact-info-val"><a href="mailto:info@esterrinaldi.it" style="text-decoration:underline;text-underline-offset:2px">info@esterrinaldi.it</a></div>
+          </div>
+        </div>
+
+      </div><!-- /contact-info -->
+
+      <!-- RIGHT: form -->
+      <div class="form-card reveal reveal-d1">
+
+        <div style="margin-bottom:20px">
+          <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+            <h2 class="heading-sm" data-i18n="appt.form.title">Richiedi un appuntamento</h2>
+            <span class="free-badge" data-i18n="appt.form.free">Prima consulenza gratuita</span>
+          </div>
+          <p style="font-size:.82rem;color:var(--silver);margin-top:6px" data-i18n="appt.form.sub">Compila il modulo e ti rispondo entro 48 ore.</p>
+        </div>
+
+        <form id="contact-form" novalidate>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-nome" data-i18n="appt.f.nome">Nome <span aria-hidden="true" style="color:#c0392b">*</span></label>
+              <input type="text" id="f-nome" name="nome" required autocomplete="given-name" data-i18n-placeholder="appt.f.nome.ph" placeholder="Es. Maria"/>
+            </div>
+            <div class="form-group">
+              <label for="f-cognome" data-i18n="appt.f.cognome">Cognome</label>
+              <input type="text" id="f-cognome" name="cognome" autocomplete="family-name" data-i18n-placeholder="appt.f.cognome.ph" placeholder="Es. Rossi"/>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label for="f-email" data-i18n="appt.f.email">Email <span aria-hidden="true" style="color:#c0392b">*</span></label>
+              <input type="email" id="f-email" name="email" required autocomplete="email" data-i18n-placeholder="appt.f.email.ph" placeholder="nome@email.it"/>
+            </div>
+            <div class="form-group">
+              <label for="f-tel" data-i18n="appt.f.tel">Telefono</label>
+              <input type="tel" id="f-tel" name="tel" autocomplete="tel" data-i18n-placeholder="appt.f.tel.ph" placeholder="+39 000 000 0000"/>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="f-motivo" data-i18n="appt.f.motivo">Motivo della richiesta</label>
+            <select id="f-motivo" name="motivo">
+              <option value="" data-i18n="appt.f.motivo.default">Seleziona un'area (opzionale)</option>
+              <option value="ansia" data-i18n="appt.f.motivo.1">Ansia e stress</option>
+              <option value="depressione" data-i18n="appt.f.motivo.2">Depressione e umore basso</option>
+              <option value="transizioni" data-i18n="appt.f.motivo.3">Transizioni di vita e burnout</option>
+              <option value="crescita" data-i18n="appt.f.motivo.4">Crescita personale e autostima</option>
+              <option value="valutazione" data-i18n="appt.f.motivo.5">Valutazione psicologica</option>
+              <option value="altro" data-i18n="appt.f.motivo.6">Altro</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="f-msg" data-i18n="appt.f.msg">Messaggio</label>
+            <textarea id="f-msg" name="messaggio" rows="4" data-i18n-placeholder="appt.f.msg.ph" placeholder="Raccontami brevemente cosa stai vivendo o cosa stai cercando. Non è obbligatorio, ma mi aiuta a prepararmi al meglio per il nostro primo incontro."></textarea>
+          </div>
+
+          <div class="form-consent" style="margin-bottom:20px">
+            <label>
+              <input type="checkbox" id="f-privacy" name="privacy" required/>
+              <span data-i18n-html="appt.f.privacy">Ho letto e accetto l'<a href="#">informativa sulla privacy</a> ai sensi del GDPR. I miei dati saranno trattati esclusivamente per la gestione della richiesta di appuntamento.</span>
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-filled" style="width:100%;justify-content:center;padding:12px 20px" data-i18n="cta.btn">Prenota la tua prima sessione</button>
+
+        </form>
+
+        <div class="form-success" id="form-success" role="alert" aria-live="polite" data-i18n="appt.form.success">
+          Grazie! Ho ricevuto la tua richiesta e ti rispondo entro 48 ore. A presto.
+        </div>
+
+      </div><!-- /form-card -->
+
+    </div><!-- /contact-grid -->
+  </div>
+</section>
+
+<div class="rainbow-divider"></div>
+
+<!-- SESSION INFO TILES -->
+<section class="section section-ghost">
+  <div class="container">
+    <div class="s-head reveal" style="text-align:center;margin-bottom:40px">
+      <p class="label" style="margin-bottom:12px" data-i18n="appt.tiles.label">Tutto quello che devi sapere</p>
+      <h2 class="heading" data-i18n="appt.tiles.title">Le sessioni in breve</h2>
+    </div>
+    <div class="info-3col">
+      <div class="info-tile reveal">
+        <div class="info-tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <div class="info-tile-label" data-i18n="appt.tile1.label">Durata</div>
+        <div class="info-tile-val" data-i18n="appt.tile1.val">50 minuti</div>
+        <div class="info-tile-sub" data-i18n="appt.tile1.sub">Ogni sessione individuale ha una durata standard di 50 minuti. La puntualità ci permette di lavorare in modo efficace.</div>
+      </div>
+      <div class="info-tile reveal reveal-d1">
+        <div class="info-tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <div class="info-tile-label" data-i18n="appt.tile2.label">Frequenza</div>
+        <div class="info-tile-val" data-i18n="appt.tile2.val">1–2 volte / sett.</div>
+        <div class="info-tile-sub" data-i18n="appt.tile2.sub">Nella fase iniziale del percorso si lavora solitamente una volta a settimana. In seguito la frequenza si adatta ai progressi.</div>
+      </div>
+      <div class="info-tile reveal reveal-d2">
+        <div class="info-tile-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="info-tile-label" data-i18n="appt.tile3.label">Riservatezza</div>
+        <div class="info-tile-val" data-i18n="appt.tile3.val">100% riservato</div>
+        <div class="info-tile-sub" data-i18n="appt.tile3.sub">Il segreto professionale è garantito dalla legge e dall'etica professionale. Quello che condividi rimane strettamente confidenziale.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="container">
+    <h2 class="heading reveal" data-i18n="cta.title">Pronta a fare il prossimo passo?</h2>
+    <p class="reveal reveal-d1" data-i18n="cta.sub">Ho disponibilità per nuovi clienti. Le sessioni durano 50 minuti, online o in presenza.</p>
+    <a href="mailto:info@esterrinaldi.it" class="btn btn-ghost reveal reveal-d2" style="border-color:rgba(255,255,255,.3);color:#fff" data-i18n="appt.cta.email">Scrivi direttamente a Ester</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand-name">Ester Rinaldi</div>
+      <p class="footer-brand-desc" data-i18n="footer.desc">Psicologa clinica specializzata in ansia, depressione, transizioni di vita e crescita personale.</p>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="footer.nav">Navigazione</div>
+      <ul class="footer-links">
+        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+        <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
+        <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
+        <li><a href="appointment.html" data-i18n="nav.appointment">Prenota</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="footer.contact">Contatti</div>
+      <ul class="footer-links">
+        <li><a href="mailto:info@esterrinaldi.it">info@esterrinaldi.it</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Ester Rinaldi · Psicologa Clinica</span>
+    <span>P.IVA [da inserire]</span>
+  </div>
+</footer>
+
+<div class="cookie-bar" id="cookie-bar"><p id="cookie-p" data-i18n-html="cookie.p">Questo sito utilizza cookie essenziali.</p><button class="btn btn-filled btn-sm" id="cookie-ok" data-i18n="cookie.btn">Accetta</button></div>
+<script src="js/main.js"></script>
+</body>
+</html>
