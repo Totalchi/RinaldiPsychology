@@ -1,5 +1,60 @@
 /* Ester Rinaldi — Clinical Psychologist · main.js */
 
+/* ── Supabase config ── */
+const ER_CONFIG = {
+  supabaseUrl:     '',   // https://xxxx.supabase.co
+  supabaseAnonKey: '',   // sb_publishable_...
+};
+const _erSb = (typeof supabase !== 'undefined' && ER_CONFIG.supabaseUrl && ER_CONFIG.supabaseAnonKey)
+  ? supabase.createClient(ER_CONFIG.supabaseUrl, ER_CONFIG.supabaseAnonKey)
+  : null;
+
+function _erSession() {
+  let id = sessionStorage.getItem('er_sid');
+  if (!id) { id = Math.random().toString(36).slice(2); sessionStorage.setItem('er_sid', id); }
+  return id;
+}
+function _erBrowser() {
+  const ua = navigator.userAgent;
+  if (ua.includes('Firefox')) return 'Firefox';
+  if (ua.includes('Edg')) return 'Edge';
+  if (ua.includes('Chrome')) return 'Chrome';
+  if (ua.includes('Safari')) return 'Safari';
+  return 'Other';
+}
+function _erOs() {
+  const ua = navigator.userAgent;
+  if (ua.includes('Windows')) return 'Windows';
+  if (ua.includes('Mac')) return 'Mac';
+  if (ua.includes('iPhone') || ua.includes('iPad')) return 'iOS';
+  if (ua.includes('Android')) return 'Android';
+  if (ua.includes('Linux')) return 'Linux';
+  return 'Other';
+}
+async function _erTrack(extraGeo) {
+  if (!_erSb) return;
+  const page = window.location.pathname.split('/').pop() || 'index.html';
+  const row = {
+    page, event_type: 'pageview',
+    session_id: _erSession(),
+    browser: _erBrowser(), os: _erOs(),
+    referrer: document.referrer || null,
+    ...extraGeo,
+  };
+  _erSb.from('analytics_events').insert(row).then(() => {});
+}
+
+// Track pageview — optionally with geo from ipapi.co
+(async () => {
+  try {
+    const r = await fetch('https://ipapi.co/json/');
+    if (r.ok) {
+      const g = await r.json();
+      _erTrack({ lat: g.latitude, lng: g.longitude, city: g.city, region: g.region, country: g.country_name });
+    } else { _erTrack({}); }
+  } catch { _erTrack({}); }
+})();
+
 /* ── Translations ── */
 const T = {
   en: {
@@ -441,10 +496,28 @@ document.addEventListener('DOMContentLoaded', () => {
       const btn = form.querySelector('button[type="submit"]');
       const success = document.getElementById('form-success');
       btn.disabled = true;
-      await new Promise(r => setTimeout(r, 1000));
+
+      const payload = {
+        nome:      form.nome?.value?.trim() || null,
+        cognome:   form.cognome?.value?.trim() || null,
+        email:     form.email?.value?.trim() || null,
+        tel:       form.tel?.value?.trim() || null,
+        motivo:    form.motivo?.value || null,
+        messaggio: form.messaggio?.value?.trim() || null,
+        lang:      lang || 'it',
+        status:    'new',
+      };
+
+      if (_erSb) {
+        const { error } = await _erSb.from('appointment_requests').insert(payload);
+        if (error) console.warn('Form submit error:', error.message);
+      } else {
+        await new Promise(r => setTimeout(r, 800));
+      }
+
       btn.disabled = false;
       form.reset();
-      if (success) { success.style.display = 'block'; setTimeout(() => success.style.display = 'none', 5000); }
+      if (success) { success.style.display = 'block'; setTimeout(() => success.style.display = 'none', 6000); }
     });
   }
 });
