@@ -2,8 +2,8 @@
 
 /* ── Supabase config ── */
 const ER_CONFIG = {
-  supabaseUrl:     '',   // https://xxxx.supabase.co
-  supabaseAnonKey: '',   // sb_publishable_...
+  supabaseUrl:     'https://lxcgetwiaawieqyqxaqk.supabase.co',
+  supabaseAnonKey: 'sb_publishable_ilYSvYBWI2QlEVvsgGwb9w_Fz9tQE3s',
 };
 const _erSb = (typeof supabase !== 'undefined' && ER_CONFIG.supabaseUrl && ER_CONFIG.supabaseAnonKey)
   ? supabase.createClient(ER_CONFIG.supabaseUrl, ER_CONFIG.supabaseAnonKey)
