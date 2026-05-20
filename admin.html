@@ -802,10 +802,22 @@ function openDrawer(id) {
       ${r.messaggio ? `<div style="margin-top:0.75rem"><div class="drawer-notes">${esc(r.messaggio)}</div></div>` : ''}
     </div>
     <div class="drawer-section">
-      <h4>Status</h4>
-      <div class="drawer-status-row">
-        <label>Cambia status</label>
-        <select class="drawer-status-sel" id="drawer-status-sel">
+      <h4>Classificazione</h4>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:0.75rem">
+        <label style="font-size:0.8rem;color:var(--muted-2);width:60px;flex-shrink:0">Motivo</label>
+        <select class="drawer-status-sel" id="drawer-motivo-sel" style="flex:1">
+          <option value=""           ${!r.motivo              ?'selected':''}>— non specificato —</option>
+          <option value="ansia"      ${r.motivo==='ansia'      ?'selected':''}>Ansia e stress</option>
+          <option value="depressione"${r.motivo==='depressione'?'selected':''}>Depressione e umore basso</option>
+          <option value="transizioni"${r.motivo==='transizioni'?'selected':''}>Transizioni e burnout</option>
+          <option value="crescita"   ${r.motivo==='crescita'   ?'selected':''}>Crescita personale</option>
+          <option value="valutazione"${r.motivo==='valutazione'?'selected':''}>Valutazione psicologica</option>
+          <option value="altro"      ${r.motivo==='altro'      ?'selected':''}>Altro</option>
+        </select>
+      </div>
+      <div style="display:flex;align-items:center;gap:0.75rem">
+        <label style="font-size:0.8rem;color:var(--muted-2);width:60px;flex-shrink:0">Status</label>
+        <select class="drawer-status-sel" id="drawer-status-sel" style="flex:1">
           <option value="new"       ${r.status==='new'       ?'selected':''}>Nuovo</option>
           <option value="contacted" ${r.status==='contacted' ?'selected':''}>Contattato</option>
           <option value="scheduled" ${r.status==='scheduled' ?'selected':''}>Programmato</option>
@@ -823,6 +835,15 @@ function openDrawer(id) {
         <span class="notes-saved" id="notes-saved">Salvato ✓</span>
       </div>
     </div>`;
+
+  document.getElementById('drawer-motivo-sel').addEventListener('change', async function() {
+    const motivo = this.value;
+    if (!sb) return;
+    await sb.from('appointment_requests').update({ motivo }).eq('id', id);
+    const r2 = allRequests.find(x => x.id === id);
+    if (r2) r2.motivo = motivo;
+    renderRequests(allRequests);
+  });
 
   document.getElementById('drawer-status-sel').addEventListener('change', async function() {
     const status = this.value;
