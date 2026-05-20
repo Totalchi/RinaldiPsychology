@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ester Rinaldi — Psicologa Clinica</title>
+<meta name="description" content="Ester Rinaldi, psicologa clinica. Supporto per ansia, depressione, transizioni di vita e crescita personale. Sessioni online e in presenza."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/style.css"/>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav" class="nav">
+  <div class="nav-inner">
+    <a href="index.html" class="nav-logo">Ester Rinaldi</a>
+    <ul class="nav-links">
+      <li><a href="index.html" class="active" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
+      <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
+      <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
+    </ul>
+    <div class="nav-right">
+      <div class="nav-lang">
+        <button data-lang-btn="it" class="is-active">IT</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="appointment.html" class="btn btn-primary btn-sm nav-cta-desktop" data-i18n="nav.appointment">Prenota</a>
+      <button id="nav-burger" class="nav-burger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- MOBILE NAV -->
+<div id="mob-nav" class="mob-nav">
+  <div id="mob-overlay" class="mob-overlay"></div>
+  <div class="mob-drawer">
+    <button id="mob-close" class="mob-close">✕</button>
+    <ul class="mob-links">
+      <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+      <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
+      <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
+      <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
+    </ul>
+    <div class="mob-footer">
+      <div class="mob-lang-row">
+        <button data-lang-btn="it" class="is-active">Italiano</button>
+        <button data-lang-btn="en">English</button>
+      </div>
+      <a href="appointment.html" class="btn btn-primary" style="width:100%;justify-content:center" data-i18n="nav.appointment">Prenota una sessione</a>
+    </div>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-tags reveal">
+        <span class="tag" data-i18n="hero.badge1">Psicologa Clinica</span>
+        <span class="tag" data-i18n="hero.badge2">CBT &amp; ACT</span>
+        <span class="tag" data-i18n="hero.badge3">Online &amp; In presenza</span>
+      </div>
+      <h1 class="display hero-title reveal reveal-d1" data-i18n-html="hero.title">
+        Uno spazio per guarire.<br>Una mente in <em>pace</em>.
+      </h1>
+      <p class="subheading hero-sub reveal reveal-d2" data-i18n="hero.sub">
+        Sono Ester, una psicologa clinica dedicata ad aiutarti ad affrontare le sfide della vita con calore e interventi fondati su prove scientifiche. Meriti di sentirti ascoltata.
+      </p>
+      <div class="hero-actions reveal reveal-d3">
+        <a href="appointment.html" class="btn btn-primary btn-lg" data-i18n="hero.cta1">Prenota una sessione</a>
+        <a href="about.html" class="btn btn-outline btn-lg" data-i18n="hero.cta2">Scopri di più</a>
+      </div>
+      <div class="hero-trust reveal reveal-d4">
+        <div class="hero-trust-item">
+          <div class="hero-trust-dot"></div>
+          <span data-i18n="hero.app1">Terapia basata su prove scientifiche</span>
+        </div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-dot"></div>
+          <span data-i18n="hero.app2">Spazio sicuro e senza giudizio</span>
+        </div>
+        <div class="hero-trust-item">
+          <div class="hero-trust-dot"></div>
+          <span data-i18n="hero.app3">Adattata alle tue esigenze uniche</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual reveal reveal-d2">
+      <div class="hero-visual-photo">
+        <div class="hero-visual-placeholder">E.R.</div>
+        <div class="hero-visual-tag" data-i18n="hero.badge1">Psicologa Clinica</div>
+      </div>
+      <div class="hero-visual-bottom">
+        <div class="hero-visual-stat">
+          <div class="hero-visual-stat-n" data-i18n="hero.stat1.n">50′</div>
+          <div class="hero-visual-stat-l" data-i18n="hero.stat1.l">Durata sessione</div>
+        </div>
+        <div class="hero-visual-stat">
+          <div class="hero-visual-stat-n" data-i18n="hero.stat2.n">CBT</div>
+          <div class="hero-visual-stat-l" data-i18n="hero.stat2.l">Approccio principale</div>
+        </div>
+        <div class="hero-visual-stat">
+          <div class="hero-visual-stat-n" data-i18n="hero.stat3.n">2</div>
+          <div class="hero-visual-stat-l" data-i18n="hero.stat3.l">Formati disponibili</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES PREVIEW -->
+<section class="section">
+  <div class="container">
+    <div class="s-head-split">
+      <div class="reveal">
+        <span class="eyebrow" style="display:block;margin-bottom:0.75rem" data-i18n="services.label">Cosa offro</span>
+        <h2 class="heading-lg" data-i18n="services.title">Come posso aiutarti</h2>
+      </div>
+      <p class="subheading reveal reveal-d1" style="max-width:380px;font-size:.95rem" data-i18n="services.sub">Il percorso di ogni persona è diverso. Offro supporto mirato nelle aree in cui le persone hanno più spesso bisogno di cura.</p>
+    </div>
+    <div class="services-grid">
+      <div class="svc-card reveal">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M12 16h.01"/></svg>
+        </div>
+        <h3 data-i18n="svc1.title">Ansia e Depressione</h3>
+        <p data-i18n="svc1.desc">Strumenti pratici e basati su prove per comprendere e gestire ansia, panico e umore basso. Insieme costruiremo chiarezza, resilienza e gioia.</p>
+        <a href="services.html" data-i18n="about.cta">Scopri di più →</a>
+      </div>
+      <div class="svc-card reveal reveal-d1">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <h3 data-i18n="svc2.title">Transizioni e Burnout</h3>
+        <p data-i18n="svc2.desc">Cambiamenti di carriera, lutto, fine di relazioni, esaurimento. La terapia ti aiuta a elaborare questi momenti e ad andare avanti con fiducia.</p>
+        <a href="services.html" data-i18n="about.cta">Scopri di più →</a>
+      </div>
+      <div class="svc-card reveal reveal-d2">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 12 7 9.5 7 6a5 5 0 0110 0c0 3.5-5 6-5 6z"/></svg>
+        </div>
+        <h3 data-i18n="svc3.title">Crescita Personale</h3>
+        <p data-i18n="svc3.desc">Maggiore autostima, valori più chiari, confini più forti. Terapia focalizzata sulla crescita per aiutarti a diventare chi vuoi essere.</p>
+        <a href="services.html" data-i18n="about.cta">Scopri di più →</a>
+      </div>
+      <div class="svc-card reveal reveal-d3">
+        <div class="svc-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6M9 16h6M9 8h6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        </div>
+        <h3 data-i18n="svc4.title">Valutazione Psicologica</h3>
+        <p data-i18n="svc4.desc">Valutazioni approfondite per fare chiarezza sulla salute mentale, diagnosi e punti di forza cognitivi. Una chiara roadmap per il tuo benessere.</p>
+        <a href="services.html" data-i18n="about.cta">Scopri di più →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT PREVIEW -->
+<section class="section section-cream">
+  <div class="container">
+    <div class="split-grid">
+      <div class="split-image reveal">
+        <div class="split-image-placeholder">E.R.</div>
+      </div>
+      <div class="split-text">
+        <div class="reveal">
+          <span class="eyebrow" data-i18n="about.label">Chi è Ester</span>
+          <h2 class="heading" style="margin-top:0.75rem" data-i18n="about.title">Chi sono</h2>
+        </div>
+        <p class="reveal reveal-d1" data-i18n="about.p1">Ciao, sono Ester Rinaldi, una psicologa clinica con una vera passione nell'aiutare le persone a scoprire la propria forza interiore. Ho recentemente completato la mia formazione e sto costruendo la mia pratica con un profondo impegno nel creare uno spazio sicuro e senza giudizio.</p>
+        <p class="reveal reveal-d2" data-i18n="about.p2">Utilizzo un approccio integrativo che combina la Terapia Cognitivo-Comportamentale (CBT) e l'Acceptance and Commitment Therapy (ACT), personalizzato per ciò che funziona meglio per te.</p>
+        <div class="values-list reveal reveal-d3">
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+            </div>
+            <div>
+              <div class="value-title">Approccio basato su prove</div>
+              <div class="value-desc">CBT e ACT adattati alle tue esigenze individuali</div>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <div>
+              <div class="value-title">Spazio senza giudizio</div>
+              <div class="value-desc">Un ambiente sicuro dove puoi essere completamente te stessa</div>
+            </div>
+          </div>
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
+            <div>
+              <div class="value-title">Collaborativa e umana</div>
+              <div class="value-desc">Lavoriamo insieme come partner verso il tuo benessere</div>
+            </div>
+          </div>
+        </div>
+        <div class="reveal">
+          <a href="about.html" class="btn btn-outline" data-i18n="about.cta">Scopri di più</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="section">
+  <div class="container">
+    <div class="s-head text-center reveal" style="margin-bottom:40px">
+      <span class="eyebrow" style="display:block;margin-bottom:0.75rem" data-i18n="faq.label">Domande frequenti</span>
+      <h2 class="heading" data-i18n="faq.title">Cosa potresti chiederti</h2>
+    </div>
+    <div class="faq-list reveal">
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.q1">La terapia fa per me?</span>
+          <span class="faq-q-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="faq-a" data-i18n="faq.a1">La terapia non è solo per momenti di crisi — è per chiunque voglia sentirsi meglio, capirsi più profondamente o fare cambiamenti positivi. Non hai bisogno di una diagnosi per beneficiarne.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.q2">Quanto dura la terapia?</span>
+          <span class="faq-q-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="faq-a" data-i18n="faq.a2">Varia da persona a persona. Alcune persone vedono progressi reali in 8–12 sessioni; altre beneficiano di un lavoro più a lungo termine. Discuteremo i tuoi obiettivi nel primo incontro.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.q3">Sarò giudicata?</span>
+          <span class="faq-q-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="faq-a" data-i18n="faq.a3">Assolutamente no. Il mio ruolo è ascoltare senza giudizio — solo con curiosità e compassione. Tutto ciò che condividi è riservato.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.q4">Online o in presenza?</span>
+          <span class="faq-q-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="faq-a" data-i18n="faq.a4">Offro entrambe le opzioni. La terapia online è altrettanto efficace di quella in presenza, e molte persone la trovano più comoda.</div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">
+          <span data-i18n="faq.q5">E se non siamo compatibili?</span>
+          <span class="faq-q-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+        </button>
+        <div class="faq-a" data-i18n="faq.a5">La nostra prima sessione serve a conoscerci. Se per qualunque motivo senti che non siamo allineate, ti supporterò nel trovare un altro terapeuta.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA BAND -->
+<div class="cta-band">
+  <div class="container">
+    <h2 class="heading reveal" data-i18n="cta.title">Pronta a fare il prossimo passo?</h2>
+    <p class="reveal reveal-d1" data-i18n="cta.sub">Ho disponibilità per nuovi clienti. Le sessioni durano 50 minuti, online o in presenza.</p>
+    <a href="appointment.html" class="btn btn-outline-white reveal reveal-d2" data-i18n="cta.btn">Prenota la tua prima sessione</a>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-brand">Ester Rinaldi</div>
+      <p class="footer-desc" data-i18n="footer.desc">Psicologa clinica specializzata in ansia, depressione, transizioni di vita e crescita personale. Cura calda e basata su prove scientifiche.</p>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="footer.nav">Navigazione</div>
+      <ul class="footer-links">
+        <li><a href="index.html" data-i18n="nav.home">Home</a></li>
+        <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
+        <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
+        <li><a href="appointment.html" data-i18n="nav.appointment">Prenota</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title" data-i18n="footer.contact">Contatti</div>
+      <ul class="footer-links">
+        <li><a href="mailto:info@esterrinaldi.it">info@esterrinaldi.it</a></li>
+        <li><a href="tel:+39">+39 — — — — — —</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Ester Rinaldi · Psicologa Clinica</span>
+    <span>P.IVA [da inserire]</span>
+  </div>
+</footer>
+
+<!-- COOKIE BAR -->
+<div class="cookie-bar" id="cookie-bar">
+  <p id="cookie-p" data-i18n-html="cookie.p">Questo sito utilizza cookie essenziali. <a href="#">Informativa sulla privacy</a>.</p>
+  <button class="btn btn-primary btn-sm" id="cookie-ok" data-i18n="cookie.btn">Accetta</button>
+</div>
+
+<script src="js/main.js"></script>
+</body>
+</html>
