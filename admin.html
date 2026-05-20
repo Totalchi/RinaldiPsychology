@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Ester Rinaldi — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+:root {
+  --bg:        #0D1117;
+  --surface:   #131820;
+  --surface-2: #192030;
+  --border:    rgba(220,216,210,0.10);
+  --border-2:  rgba(220,216,210,0.16);
+  --text:      #E4E0D8;
+  --muted:     #788090;
+  --muted-2:   #9DA6B2;
+  --accent:    #4E7055;
+  --accent-2:  #6B8F71;
+  --green:     #4a9f6f;
+  --amber:     #c18a2a;
+  --blue:      #3a78b5;
+  --clay:      #B8755A;
+  --f-body:    "Outfit", -apple-system, sans-serif;
+  --f-mono:    "JetBrains Mono", monospace;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body { font-family: var(--f-body); background: var(--bg); color: var(--text); font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; cursor: pointer; border: 0; background: none; color: inherit; }
+input, select, textarea { font: inherit; color: inherit; }
+
+/* ── Login ── */
+#login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+.login-card { width: 100%; max-width: 360px; background: var(--surface); border: 1px solid var(--border-2); border-radius: 12px; padding: 2.5rem 2rem; }
+.login-logo { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; }
+.login-monogram { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-style: italic; font-size: 1.1rem; color: #fff; flex-shrink: 0; }
+.login-logo-text strong { font-size: 1.15rem; font-weight: 600; display: block; }
+.login-logo-text small { font-size: 0.65rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); }
+.login-card h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 0.3rem; }
+.login-card p { font-size: 0.85rem; color: var(--muted-2); margin-bottom: 1.75rem; }
+.field { margin-bottom: 1rem; }
+.field label { display: block; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; font-family: var(--f-mono); }
+.field input { width: 100%; padding: 0.78rem 0.95rem; background: rgba(13,17,23,0.6); border: 1px solid var(--border-2); border-radius: 6px; color: var(--text); font-size: 0.95rem; outline: none; transition: border-color 0.2s; }
+.field input:focus { border-color: rgba(107,143,113,0.55); }
+.btn-login { width: 100%; padding: 0.85rem; background: var(--accent); color: #fff; border-radius: 6px; font-weight: 600; font-size: 0.95rem; margin-top: 0.5rem; transition: background 0.2s; }
+.btn-login:hover { background: var(--accent-2); }
+.login-msg { min-height: 1.2rem; font-size: 0.83rem; color: #e08888; margin-top: 0.75rem; }
+
+/* ── Dashboard ── */
+#dashboard { display: none; min-height: 100vh; flex-direction: column; }
+#dashboard.visible { display: flex; }
+.admin-header { display: flex; align-items: center; justify-content: space-between; padding: 0.9rem 2rem; background: var(--surface); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+.admin-header-brand { display: flex; align-items: center; gap: 0.65rem; font-weight: 600; font-size: 0.95rem; }
+.admin-monogram { width: 28px; height: 28px; border-radius: 50%; background: var(--accent); display: flex; align-items: center; justify-content: center; font-family: Georgia, serif; font-style: italic; font-size: 0.85rem; color: #fff; flex-shrink: 0; }
+.admin-header-brand span { color: var(--muted); font-weight: 400; margin-left: 0.2rem; }
+.admin-header-right { display: flex; align-items: center; gap: 1rem; }
+.admin-user { font-size: 0.8rem; color: var(--muted-2); }
+.btn-logout { padding: 0.45rem 0.9rem; border: 1px solid var(--border-2); border-radius: 5px; font-size: 0.78rem; color: var(--muted-2); transition: color 0.2s, border-color 0.2s; }
+.btn-logout:hover { color: var(--text); border-color: rgba(220,216,210,0.3); }
+.admin-body { flex: 1; padding: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+/* ── Admin tabs ── */
+.admin-tabs { display: flex; gap: 0.25rem; margin-bottom: 1.75rem; border-bottom: 1px solid var(--border); padding-bottom: 0; }
+.admin-tab { padding: 0.65rem 1.25rem; font-size: 0.88rem; font-weight: 500; color: var(--muted-2); border-bottom: 2px solid transparent; margin-bottom: -1px; transition: color 0.2s, border-color 0.2s; cursor: pointer; }
+.admin-tab:hover { color: var(--text); }
+.admin-tab.is-active { color: var(--text); border-bottom-color: var(--accent-2); }
+
+/* ── Stats ── */
+.stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+.stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 1.25rem 1.5rem; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+.stat-card:hover { border-color: rgba(220,216,210,0.22); }
+.stat-card.is-active { border-color: var(--accent-2) !important; box-shadow: 0 0 0 1px var(--accent-2); }
+.s-label { font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-family: var(--f-mono); margin-bottom: 0.5rem; }
+.s-value { font-size: 2rem; font-weight: 600; line-height: 1; }
+.s-sub   { font-size: 0.76rem; color: var(--muted-2); margin-top: 0.35rem; }
+.stat-new      .s-value { color: var(--accent-2); }
+.stat-contacted .s-value { color: var(--amber); }
+.stat-scheduled .s-value { color: var(--blue); }
+.stat-completed .s-value { color: var(--green); }
+
+/* ── Panel ── */
+.leads-panel { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+.leads-toolbar { display: flex; align-items: center; gap: 0.75rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+.leads-toolbar h3 { font-size: 1rem; font-weight: 600; flex: 1; min-width: 100px; }
+.filter-group { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+.filter-btn { padding: 0.38rem 0.8rem; border: 1px solid var(--border-2); border-radius: 4px; font-size: 0.74rem; color: var(--muted-2); transition: all 0.2s; font-family: var(--f-mono); letter-spacing: 0.07em; cursor: pointer; }
+.filter-btn:hover { color: var(--text); border-color: rgba(220,216,210,0.28); }
+.filter-btn.is-active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.filter-sep { width: 1px; background: var(--border); height: 24px; align-self: center; }
+.btn-refresh { padding: 0.38rem 0.8rem; border: 1px solid var(--border-2); border-radius: 4px; font-size: 0.74rem; color: var(--muted-2); transition: all 0.2s; display: flex; align-items: center; gap: 0.35rem; cursor: pointer; }
+.btn-refresh:hover { color: var(--text); }
+.btn-refresh svg { width: 13px; height: 13px; }
+
+/* ── Table ── */
+.leads-table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 0.87rem; }
+thead th { text-align: left; padding: 0.65rem 1.1rem; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-family: var(--f-mono); border-bottom: 1px solid var(--border); white-space: nowrap; }
+tbody tr { border-bottom: 1px solid var(--border); transition: background 0.15s; cursor: pointer; }
+tbody tr:last-child { border-bottom: 0; }
+tbody tr:hover { background: rgba(220,216,210,0.04); }
+tbody td { padding: 0.85rem 1.1rem; vertical-align: middle; max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.td-date  { color: var(--muted-2); font-family: var(--f-mono); font-size: 0.76rem; white-space: nowrap; }
+.td-name  { font-weight: 500; }
+.td-email { color: var(--muted-2); font-size: 0.82rem; }
+.td-motivo { color: var(--muted-2); font-size: 0.82rem; max-width: 150px; }
+
+/* ── Status badges ── */
+.status-badge { display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.22rem 0.6rem; border-radius: 999px; font-size: 0.7rem; border: 1px solid; white-space: nowrap; }
+.s-new        { border-color: rgba(107,143,113,0.4); color: #8dc492; }
+.s-contacted  { border-color: rgba(193,138,42,0.4); color: #d4a55a; }
+.s-scheduled  { border-color: rgba(58,120,181,0.4); color: #7ab0e0; }
+.s-completed  { border-color: rgba(74,159,111,0.4); color: #7dcba0; }
+.s-archived   { border-color: rgba(120,128,144,0.35); color: var(--muted); }
+
+/* ── Status select ── */
+.status-select { background: transparent; border: 1px solid var(--border-2); border-radius: 4px; padding: 0.28rem 0.55rem; font-size: 0.74rem; color: var(--muted-2); cursor: pointer; transition: border-color 0.2s; }
+.status-select:focus { outline: none; border-color: rgba(107,143,113,0.4); }
+
+/* ── Empty state ── */
+.empty-state { text-align: center; padding: 4rem 2rem; color: var(--muted); }
+.empty-state svg { width: 40px; height: 40px; margin: 0 auto 1rem; opacity: 0.35; }
+.empty-state p { font-size: 0.9rem; }
+
+/* ── Drawer ── */
+.drawer-overlay { display: none; position: fixed; inset: 0; background: rgba(6,10,18,0.65); z-index: 50; }
+.drawer-overlay.is-open { display: block; }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; width: min(480px, 96vw); background: var(--surface); border-left: 1px solid var(--border-2); z-index: 51; overflow-y: auto; padding: 2rem; transform: translateX(110%); transition: transform 0.3s cubic-bezier(0.16,1,0.3,1); }
+.drawer.is-open { transform: translateX(0); }
+.drawer-close { position: absolute; top: 1.25rem; right: 1.25rem; width: 34px; height: 34px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border-2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: var(--muted-2); transition: background 0.2s; cursor: pointer; }
+.drawer-close:hover { background: var(--accent); color: #fff; }
+.drawer h3 { font-size: 1.25rem; font-weight: 600; margin-bottom: 1.5rem; padding-right: 2.5rem; }
+.drawer-section { margin-bottom: 1.5rem; }
+.drawer-section h4 { font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); font-family: var(--f-mono); margin-bottom: 0.75rem; }
+.drawer-row { display: flex; justify-content: space-between; gap: 1rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+.drawer-row:last-child { border-bottom: 0; }
+.drawer-row .dr-label { color: var(--muted-2); flex-shrink: 0; }
+.drawer-row .dr-val { text-align: right; word-break: break-word; }
+.drawer-notes { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 0.9rem; font-size: 0.87rem; color: var(--muted-2); line-height: 1.6; white-space: pre-wrap; }
+.drawer-status-row { display: flex; align-items: center; gap: 0.75rem; margin-top: 1.5rem; }
+.drawer-status-row label { font-size: 0.8rem; color: var(--muted-2); }
+.drawer-status-sel { flex: 1; padding: 0.6rem 0.9rem; background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 6px; color: var(--text); font-size: 0.9rem; cursor: pointer; outline: none; transition: border-color 0.2s; }
+.drawer-status-sel:focus { border-color: rgba(107,143,113,0.5); }
+.admin-notes-area { width: 100%; min-height: 90px; padding: 0.75rem; background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 8px; color: var(--text); font-size: 0.87rem; font-family: var(--f-body); line-height: 1.55; resize: vertical; outline: none; transition: border-color 0.2s; }
+.admin-notes-area:focus { border-color: rgba(107,143,113,0.5); }
+.btn-save-notes { padding: 0.42rem 0.9rem; background: var(--accent); color: #fff; border-radius: 5px; font-size: 0.8rem; font-weight: 600; cursor: pointer; transition: background 0.2s; }
+.btn-save-notes:hover { background: var(--accent-2); }
+.btn-archive { padding: 0.42rem 0.9rem; border: 1px solid rgba(120,128,144,0.35); border-radius: 5px; font-size: 0.8rem; color: var(--muted-2); cursor: pointer; transition: all 0.2s; }
+.btn-archive:hover { border-color: rgba(220,80,80,0.4); color: #e08888; }
+.btn-restore { border-color: rgba(74,159,111,0.4); color: #7dcba0; }
+.btn-restore:hover { border-color: rgba(74,159,111,0.6); }
+.notes-saved { font-size: 0.75rem; color: var(--green); opacity: 0; transition: opacity 0.3s; }
+.notes-saved.show { opacity: 1; }
+
+/* ── Reviews ── */
+.review-row { display: flex; align-items: flex-start; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--border); transition: background 0.15s; }
+.review-row:last-child { border-bottom: 0; }
+.review-row:hover { background: rgba(220,216,210,0.03); }
+.review-row-body { flex: 1; min-width: 0; }
+.review-row-quote { font-size: 0.88rem; color: var(--text); line-height: 1.5; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px; }
+.review-row-meta  { font-size: 0.74rem; color: var(--muted-2); margin-top: 0.25rem; }
+.review-row-actions { display: flex; gap: 0.5rem; flex-shrink: 0; align-items: center; }
+.rv-btn { padding: 0.3rem 0.7rem; border: 1px solid var(--border-2); border-radius: 4px; font-size: 0.72rem; color: var(--muted-2); cursor: pointer; transition: all 0.2s; }
+.rv-btn:hover { color: var(--text); border-color: rgba(220,216,210,0.3); }
+.rv-btn-del:hover { color: #e08888; border-color: rgba(220,80,80,0.3); }
+.rv-toggle { width: 36px; height: 20px; border-radius: 999px; border: 1px solid var(--border-2); background: var(--surface-2); position: relative; cursor: pointer; transition: background 0.2s, border-color 0.2s; flex-shrink: 0; }
+.rv-toggle::after { content: ''; position: absolute; top: 2px; left: 2px; width: 14px; height: 14px; border-radius: 50%; background: var(--muted); transition: transform 0.2s, background 0.2s; }
+.rv-toggle.is-on { background: rgba(74,159,111,0.25); border-color: rgba(74,159,111,0.5); }
+.rv-toggle.is-on::after { transform: translateX(16px); background: #7dcba0; }
+
+/* ── Analytics ── */
+#an-map { height: 340px; background: var(--surface-2); border-radius: 0 0 8px 8px; }
+.leaflet-container { background: #0d1117 !important; font-family: var(--f-body) !important; }
+.leaflet-popup-content-wrapper { background: var(--surface); color: var(--text); border: 1px solid var(--border-2); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.5); }
+.leaflet-popup-tip { background: var(--surface); }
+.leaflet-popup-content { margin: 10px 14px; font-size: 0.85rem; line-height: 1.5; }
+.leaflet-popup-close-button { color: var(--muted) !important; }
+.leaflet-control-zoom a { background: var(--surface-2) !important; color: var(--text) !important; border-color: var(--border-2) !important; }
+.leaflet-bar { border: 1px solid var(--border-2) !important; box-shadow: none !important; }
+.an-cities-row { display: flex; align-items: center; gap: 0.6rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.84rem; }
+.an-cities-row:last-child { border-bottom: 0; }
+.an-cities-rank { width: 18px; flex-shrink: 0; color: var(--muted); font-family: var(--f-mono); font-size: 0.68rem; text-align: center; }
+.an-cities-name  { flex: 1; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.an-cities-region { color: var(--muted); font-size: 0.74rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; flex-shrink: 0; }
+.an-cities-count { width: 28px; text-align: right; color: var(--muted-2); font-family: var(--f-mono); font-size: 0.74rem; flex-shrink: 0; }
+.an-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.55rem 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
+.an-row:last-child { border-bottom: 0; }
+.an-label { width: 140px; flex-shrink: 0; color: var(--text); }
+.an-bar-wrap { flex: 1; height: 5px; background: var(--surface-2); border-radius: 999px; overflow: hidden; }
+.an-bar { height: 100%; border-radius: 999px; background: var(--accent-2); transition: width 0.6s cubic-bezier(0.16,1,0.3,1); }
+.an-count { width: 36px; text-align: right; color: var(--muted-2); font-family: var(--f-mono); font-size: 0.73rem; flex-shrink: 0; }
+.an-pct { width: 38px; text-align: right; color: var(--muted); font-size: 0.73rem; flex-shrink: 0; }
+
+/* ── Live visitors ── */
+.live-bar { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; padding: 0.85rem 1.25rem; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; }
+.live-dot { width: 8px; height: 8px; flex-shrink: 0; border-radius: 50%; background: var(--accent-2); animation: live-pulse 2s infinite; }
+.live-dot.is-empty { background: var(--muted); animation: none; }
+@keyframes live-pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(107,143,113,0.5); } 50% { box-shadow: 0 0 0 5px rgba(107,143,113,0); } }
+.live-count { font-weight: 600; font-size: 0.95rem; }
+.live-sub   { font-size: 0.77rem; color: var(--muted); }
+.live-rows  { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.4rem; }
+.live-row { display: flex; align-items: center; gap: 0.65rem; padding: 0.55rem 0.85rem; background: var(--surface-2); border-radius: 6px; font-size: 0.82rem; }
+.live-row-page { color: var(--accent-2); font-family: var(--f-mono); font-size: 0.74rem; flex-shrink: 0; }
+.live-row-loc  { color: var(--muted-2); flex: 1; }
+.live-row-ago  { color: var(--muted); font-family: var(--f-mono); font-size: 0.7rem; flex-shrink: 0; }
+
+/* ── Config notice ── */
+.config-notice { background: rgba(107,143,113,0.08); border: 1px solid rgba(107,143,113,0.28); border-radius: 8px; padding: 1rem 1.25rem; font-size: 0.85rem; color: #8dc492; margin-bottom: 1.75rem; line-height: 1.65; }
+.config-notice strong { display: block; margin-bottom: 0.25rem; font-size: 0.92rem; }
+.config-notice code { font-family: var(--f-mono); font-size: 0.76rem; background: rgba(107,143,113,0.12); padding: 0.15rem 0.4rem; border-radius: 3px; }
+.sql-block { background: var(--surface-2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; font-family: var(--f-mono); font-size: 0.73rem; color: var(--muted-2); white-space: pre; overflow-x: auto; margin-top: 0.75rem; line-height: 1.65; }
+
+/* ── Spinner ── */
+.spinner { width: 20px; height: 20px; border: 2px solid var(--border-2); border-top-color: var(--accent-2); border-radius: 50%; animation: spin 0.7s linear infinite; margin: 3rem auto; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* ── Motivo badge ── */
+.motivo-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 4px; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; font-family: var(--f-mono); background: rgba(107,143,113,0.12); color: var(--accent-2); }
+
+/* ── Form inputs (review form) ── */
+.rf-input { width: 100%; padding: 0.65rem 0.85rem; background: var(--surface-2); border: 1px solid var(--border-2); border-radius: 6px; color: var(--text); font-size: 0.9rem; outline: none; transition: border-color 0.2s; }
+.rf-input:focus { border-color: rgba(107,143,113,0.5); }
+.rf-label { display: block; font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; font-family: var(--f-mono); }
+
+/* ── Mobile ── */
+@media (max-width: 640px) {
+  .admin-body { padding: 1rem; }
+  .leads-toolbar { padding: 0.85rem 1rem; }
+  thead th:nth-child(3), tbody td:nth-child(3),
+  thead th:nth-child(5), tbody td:nth-child(5) { display: none; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .stat-card { padding: 1rem; }
+  .s-value { font-size: 1.6rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-logo">
+      <div class="login-monogram">E</div>
+      <div class="login-logo-text">
+        <strong>Ester Rinaldi</strong>
+        <small>Admin dashboard</small>
+      </div>
+    </div>
+    <h2>Sign in</h2>
+    <p>Restricted access. This page is not for clients.</p>
+    <form id="login-form">
+      <div class="field">
+        <label>Username</label>
+        <input id="login-user" type="text" autocomplete="username" required placeholder="Username"/>
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input id="login-password" type="password" autocomplete="current-password" required/>
+      </div>
+      <button class="btn-login" type="submit" id="login-btn">Sign in</button>
+      <p class="login-msg" id="login-msg"></p>
+    </form>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dashboard">
+  <header class="admin-header">
+    <div class="admin-header-brand">
+      <div class="admin-monogram">E</div>
+      Ester Rinaldi <span>/ Admin</span>
+    </div>
+    <div class="admin-header-right">
+      <span class="admin-user" id="admin-user-email"></span>
+      <button class="btn-logout" id="btn-logout">Sign out</button>
+    </div>
+  </header>
+
+  <main class="admin-body">
+
+    <div class="admin-tabs">
+      <button class="admin-tab is-active" data-panel="requests">Richieste</button>
+      <button class="admin-tab" data-panel="reviews">Reviews</button>
+      <button class="admin-tab" data-panel="analytics">Analytics</button>
+    </div>
+
+    <!-- ══════════════ RICHIESTE PANEL ══════════════ -->
+    <div id="panel-requests">
+
+      <div class="config-notice" id="config-notice" style="display:none">
+        <strong>Supabase not configured</strong>
+        To connect real appointment requests:
+        <ol style="margin:0.5rem 0 0.5rem 1.2rem;line-height:2">
+          <li>Create a Supabase project at <strong>supabase.com</strong></li>
+          <li>Run the SQL below to create the required tables</li>
+          <li>Add your <code>supabaseUrl</code> and <code>supabaseAnonKey</code> to <code>ADMIN_CONFIG</code> in this file and <code>ER_CONFIG</code> in <code>js/main.js</code></li>
+        </ol>
+        <div class="sql-block">-- Appointment requests
+CREATE TABLE appointment_requests (
+  id          UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at  TIMESTAMPTZ DEFAULT NOW(),
+  nome        TEXT, cognome TEXT, email TEXT, tel TEXT,
+  motivo      TEXT, messaggio TEXT, lang TEXT DEFAULT 'it',
+  status      TEXT DEFAULT 'new', admin_notes TEXT
+);
+ALTER TABLE appointment_requests ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Anon insert" ON appointment_requests FOR INSERT WITH CHECK (true);
+CREATE POLICY "Auth read"   ON appointment_requests FOR SELECT USING (auth.role()='authenticated');
+CREATE POLICY "Auth update" ON appointment_requests FOR UPDATE USING (auth.role()='authenticated');
+
+-- Reviews
+CREATE TABLE reviews (
+  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  author     TEXT NOT NULL, role_text TEXT,
+  quote      TEXT NOT NULL, stars INT DEFAULT 5,
+  is_visible BOOLEAN DEFAULT true, sort_order INT DEFAULT 0
+);
+ALTER TABLE reviews ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Anon read" ON reviews FOR SELECT USING (is_visible=true);
+CREATE POLICY "Auth full" ON reviews USING (auth.role()='authenticated') WITH CHECK (auth.role()='authenticated');
+
+-- Analytics
+CREATE TABLE analytics_events (
+  id         UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  created_at TIMESTAMPTZ DEFAULT NOW(),
+  page       TEXT, event_type TEXT DEFAULT 'pageview',
+  session_id TEXT, lat FLOAT, lng FLOAT,
+  city TEXT, region TEXT, country TEXT,
+  browser TEXT, os TEXT, referrer TEXT
+);
+ALTER TABLE analytics_events ENABLE ROW LEVEL SECURITY;
+CREATE POLICY "Anon insert" ON analytics_events FOR INSERT WITH CHECK (true);
+CREATE POLICY "Auth read"   ON analytics_events FOR SELECT USING (auth.role()='authenticated');</div>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-row" id="stats-row">
+        <div class="stat-card" data-filter-status="all">
+          <div class="s-label">Totale</div>
+          <div class="s-value" id="stat-total">—</div>
+          <div class="s-sub">Tutte le richieste</div>
+        </div>
+        <div class="stat-card stat-new" data-filter-status="new">
+          <div class="s-label">Nuove</div>
+          <div class="s-value" id="stat-new">—</div>
+          <div class="s-sub">Da contattare</div>
+        </div>
+        <div class="stat-card stat-contacted" data-filter-status="contacted">
+          <div class="s-label">Contattate</div>
+          <div class="s-value" id="stat-contacted">—</div>
+          <div class="s-sub">In corso</div>
+        </div>
+        <div class="stat-card stat-scheduled" data-filter-status="scheduled">
+          <div class="s-label">Programmate</div>
+          <div class="s-value" id="stat-scheduled">—</div>
+          <div class="s-sub">Appuntamento fissato</div>
+        </div>
+        <div class="stat-card stat-completed" data-filter-status="completed">
+          <div class="s-label">Completate</div>
+          <div class="s-value" id="stat-completed">—</div>
+          <div class="s-sub">Percorso avviato</div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="leads-panel">
+        <div class="leads-toolbar">
+          <h3>Richieste di appuntamento</h3>
+          <div class="filter-group" id="motivo-filters">
+            <button class="filter-btn is-active" data-motivo="all">Tutti</button>
+            <button class="filter-btn" data-motivo="ansia">Ansia</button>
+            <button class="filter-btn" data-motivo="depressione">Depressione</button>
+            <button class="filter-btn" data-motivo="transizioni">Transizioni</button>
+            <button class="filter-btn" data-motivo="crescita">Crescita</button>
+            <button class="filter-btn" data-motivo="valutazione">Valutazione</button>
+            <button class="filter-btn" data-motivo="altro">Altro</button>
+          </div>
+          <div class="filter-sep"></div>
+          <div class="filter-group" id="status-filters">
+            <button class="filter-btn is-active" data-status="all">Tutti</button>
+            <button class="filter-btn" data-status="new">Nuovi</button>
+            <button class="filter-btn" data-status="contacted">Contattati</button>
+            <button class="filter-btn" data-status="scheduled">Programmati</button>
+            <button class="filter-btn" data-status="completed">Completati</button>
+            <button class="filter-btn" data-status="archived">Archiviati</button>
+          </div>
+          <button class="btn-refresh" id="btn-refresh">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+            Refresh
+          </button>
+        </div>
+        <div class="leads-table-wrap">
+          <table id="requests-table">
+            <thead>
+              <tr>
+                <th>Data</th>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Telefono</th>
+                <th>Motivo</th>
+                <th>Status</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="requests-tbody">
+              <tr><td colspan="7"><div class="spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div><!-- /panel-requests -->
+
+    <!-- ══════════════ REVIEWS PANEL ══════════════ -->
+    <div id="panel-reviews" style="display:none">
+      <div class="leads-panel">
+        <div class="leads-toolbar">
+          <h3>Recensioni</h3>
+          <button class="filter-btn" id="btn-add-review" style="color:#7dcba0;border-color:rgba(74,159,111,0.4)">+ Aggiungi</button>
+        </div>
+
+        <!-- Add/Edit form -->
+        <div id="review-form-wrap" style="display:none;padding:1.5rem;border-bottom:1px solid var(--border)">
+          <h4 style="font-size:0.9rem;font-weight:600;margin-bottom:1rem" id="review-form-title">Nuova recensione</h4>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem">
+            <div>
+              <label class="rf-label">Nome</label>
+              <input id="rf-name" class="rf-input" placeholder="Anna B."/>
+            </div>
+            <div>
+              <label class="rf-label">Ruolo / città</label>
+              <input id="rf-role" class="rf-input" placeholder="Es. Milano"/>
+            </div>
+          </div>
+          <div style="margin-bottom:1rem">
+            <label class="rf-label">Citazione</label>
+            <textarea id="rf-quote" rows="3" class="rf-input" style="resize:vertical;font-family:inherit" placeholder='"Ester mi ha aiutata a..."'></textarea>
+          </div>
+          <div style="margin-bottom:1rem">
+            <label class="rf-label">Stelle (1–5)</label>
+            <input id="rf-stars" class="rf-input" type="number" min="1" max="5" value="5" style="width:100px"/>
+          </div>
+          <div style="display:flex;gap:0.75rem;align-items:center">
+            <button id="rf-save" style="padding:0.6rem 1.2rem;background:var(--accent);color:#fff;border:0;border-radius:6px;font-size:0.88rem;font-weight:600;cursor:pointer">Salva</button>
+            <button id="rf-cancel" style="padding:0.6rem 1rem;border:1px solid var(--border-2);border-radius:6px;font-size:0.88rem;color:var(--muted-2);cursor:pointer">Annulla</button>
+            <input type="hidden" id="rf-id"/>
+          </div>
+        </div>
+
+        <div id="reviews-list" style="padding:0.5rem 0">
+          <div class="spinner"></div>
+        </div>
+      </div>
+    </div><!-- /panel-reviews -->
+
+    <!-- ══════════════ ANALYTICS PANEL ══════════════ -->
+    <div id="panel-analytics" style="display:none">
+
+      <!-- Period filter -->
+      <div style="display:flex;align-items:center;gap:0.5rem;margin-bottom:1.5rem;flex-wrap:wrap">
+        <span style="font-size:0.76rem;color:var(--muted);font-family:var(--f-mono);letter-spacing:0.1em;text-transform:uppercase;margin-right:0.5rem">Periodo</span>
+        <div class="filter-group" id="analytics-period">
+          <button class="filter-btn" data-period="1">Oggi</button>
+          <button class="filter-btn is-active" data-period="7">7 giorni</button>
+          <button class="filter-btn" data-period="30">30 giorni</button>
+          <button class="filter-btn" data-period="0">Tutti</button>
+        </div>
+        <button class="btn-refresh" id="btn-refresh-analytics" style="margin-left:auto">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12a9 9 0 109-9 9.75 9.75 0 00-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <!-- Live visitors -->
+      <div id="live-panel">
+        <div class="live-bar">
+          <div class="live-dot is-empty" id="live-dot"></div>
+          <div>
+            <span class="live-count" id="live-count">0</span>
+            <span style="font-size:0.88rem;color:var(--muted-2);margin-left:0.4rem">visitatori ora</span>
+          </div>
+          <span class="live-sub" id="live-sub" style="margin-left:auto">Aggiornato ogni 30s</span>
+        </div>
+        <div class="live-rows" id="live-rows"></div>
+      </div>
+
+      <!-- 2-col grid: map + pages -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-top:1.5rem">
+
+        <!-- Map -->
+        <div class="leads-panel" style="overflow:visible">
+          <div class="leads-toolbar" style="border-radius:10px 10px 0 0">
+            <h3>Mappa visitatori</h3>
+            <span id="an-total-label" style="font-size:0.8rem;color:var(--muted-2);margin-left:auto"></span>
+          </div>
+          <div id="an-map"></div>
+        </div>
+
+        <!-- Top pages -->
+        <div>
+          <div class="leads-panel" style="margin-bottom:1rem">
+            <div class="leads-toolbar"><h3>Pagine più visitate</h3></div>
+            <div id="an-pages" style="padding:0.5rem 1.25rem 1rem">
+              <div class="spinner"></div>
+            </div>
+          </div>
+
+          <!-- Top cities -->
+          <div class="leads-panel">
+            <div class="leads-toolbar"><h3>Città principali</h3></div>
+            <div id="an-cities" style="padding:0.5rem 1.25rem 1rem">
+              <div class="spinner"></div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div><!-- /panel-analytics -->
+
+  </main>
+</div>
+
+<!-- Request detail drawer -->
+<div class="drawer-overlay" id="drawer-overlay"></div>
+<div class="drawer" id="req-drawer">
+  <button class="drawer-close" id="drawer-close">×</button>
+  <h3 id="drawer-name">Dettaglio richiesta</h3>
+  <div id="drawer-content"></div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+/* ─────────────────────────────────────────
+   CONFIGURATION
+────────────────────────────────────────── */
+const ADMIN_CONFIG = {
+  supabaseUrl:     '',   // https://xxxx.supabase.co
+  supabaseAnonKey: '',   // sb_publishable_...
+  fallbackUser:    'ester',
+  fallbackPass:    'ester2025',
+};
+
+/* ─────────────────────────────────────────
+   INIT
+────────────────────────────────────────── */
+const configured = Boolean(ADMIN_CONFIG.supabaseUrl && ADMIN_CONFIG.supabaseAnonKey);
+const sb = configured
+  ? supabase.createClient(ADMIN_CONFIG.supabaseUrl, ADMIN_CONFIG.supabaseAnonKey)
+  : null;
+
+const SESSION_KEY = 'er_admin_session';
+let allRequests = [];
+let activeMotivo = 'all';
+let activeStatus = 'all';
+let currentReqId = null;
+let anPeriod = 7;
+let anMap = null;
+let anMarkers = null;
+
+/* ─────────────────────────────────────────
+   DOM REFS
+────────────────────────────────────────── */
+const loginScreen  = document.getElementById('login-screen');
+const loginForm    = document.getElementById('login-form');
+const loginBtn     = document.getElementById('login-btn');
+const loginMsg     = document.getElementById('login-msg');
+const dashboard    = document.getElementById('dashboard');
+const adminEmail   = document.getElementById('admin-user-email');
+const btnLogout    = document.getElementById('btn-logout');
+const configNotice = document.getElementById('config-notice');
+const drawerOverlay = document.getElementById('drawer-overlay');
+const reqDrawer    = document.getElementById('req-drawer');
+const drawerClose  = document.getElementById('drawer-close');
+const drawerContent = document.getElementById('drawer-content');
+const drawerName   = document.getElementById('drawer-name');
+const btnRefresh   = document.getElementById('btn-refresh');
+
+/* ─────────────────────────────────────────
+   AUTH
+────────────────────────────────────────── */
+async function checkSession() {
+  if (sb) {
+    const { data: { session } } = await sb.auth.getSession();
+    if (session) { showDashboard(session.user); return; }
+  }
+  if (sessionStorage.getItem(SESSION_KEY) === 'ok') showDashboard(null);
+}
+
+loginForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  loginMsg.textContent = '';
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Accesso…';
+
+  const user = document.getElementById('login-user').value.trim().toLowerCase();
+  const pass = document.getElementById('login-password').value;
+
+  if (sb) {
+    const { error } = await sb.auth.signInWithPassword({ email: user, password: pass });
+    if (!error) {
+      const { data: { session } } = await sb.auth.getSession();
+      showDashboard(session?.user || null);
+      return;
+    }
+  }
+
+  if (user === ADMIN_CONFIG.fallbackUser && pass === ADMIN_CONFIG.fallbackPass) {
+    sessionStorage.setItem(SESSION_KEY, 'ok');
+    showDashboard(null);
+    return;
+  }
+
+  loginMsg.textContent = 'Nome utente o password errati.';
+  loginBtn.disabled = false;
+  loginBtn.textContent = 'Sign in';
+});
+
+btnLogout.addEventListener('click', async () => {
+  if (sb) await sb.auth.signOut();
+  sessionStorage.removeItem(SESSION_KEY);
+  dashboard.classList.remove('visible');
+  loginScreen.style.display = 'flex';
+  loginBtn.disabled = false;
+  loginBtn.textContent = 'Sign in';
+});
+
+function showDashboard(user) {
+  loginScreen.style.display = 'none';
+  dashboard.classList.add('visible');
+  if (user?.email) adminEmail.textContent = user.email;
+  if (!configured) configNotice.style.display = 'block';
+  loadRequests();
+}
+
+/* ─────────────────────────────────────────
+   TABS
+────────────────────────────────────────── */
+document.querySelectorAll('.admin-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('is-active'));
+    tab.classList.add('is-active');
+    const panel = tab.dataset.panel;
+    document.getElementById('panel-requests').style.display  = panel === 'requests'  ? '' : 'none';
+    document.getElementById('panel-reviews').style.display   = panel === 'reviews'   ? '' : 'none';
+    document.getElementById('panel-analytics').style.display = panel === 'analytics' ? '' : 'none';
+    if (panel === 'reviews')   loadReviews();
+    if (panel === 'analytics') initAnalytics();
+  });
+});
+
+/* ─────────────────────────────────────────
+   REQUESTS
+────────────────────────────────────────── */
+async function loadRequests() {
+  const tbody = document.getElementById('requests-tbody');
+  tbody.innerHTML = '<tr><td colspan="7"><div class="spinner"></div></td></tr>';
+
+  if (!sb) {
+    renderRequests([]);
+    updateStats([]);
+    return;
+  }
+
+  const { data, error } = await sb.from('appointment_requests').select('*').order('created_at', { ascending: false });
+  if (error) { tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--muted)">Errore nel caricamento.</td></tr>'; return; }
+  allRequests = data || [];
+  updateStats(allRequests);
+  renderRequests(allRequests);
+}
+
+function updateStats(rows) {
+  const live = rows.filter(r => r.status !== 'archived');
+  document.getElementById('stat-total').textContent     = live.length;
+  document.getElementById('stat-new').textContent       = live.filter(r => r.status === 'new').length;
+  document.getElementById('stat-contacted').textContent = live.filter(r => r.status === 'contacted').length;
+  document.getElementById('stat-scheduled').textContent = live.filter(r => r.status === 'scheduled').length;
+  document.getElementById('stat-completed').textContent = live.filter(r => r.status === 'completed').length;
+}
+
+function renderRequests(rows) {
+  let filtered = rows;
+  if (activeMotivo !== 'all') filtered = filtered.filter(r => r.motivo === activeMotivo);
+  if (activeStatus !== 'all') filtered = filtered.filter(r => r.status === activeStatus);
+
+  const tbody = document.getElementById('requests-tbody');
+  if (!filtered.length) {
+    tbody.innerHTML = `<tr><td colspan="7"><div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0H4"/></svg><p>Nessuna richiesta trovata.</p></div></td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = filtered.map(r => {
+    const dt = new Date(r.created_at);
+    const date = dt.toLocaleDateString('it-IT', { day:'2-digit', month:'short', year:'numeric' });
+    const name = [r.nome, r.cognome].filter(Boolean).join(' ') || '—';
+    return `<tr data-id="${r.id}">
+      <td class="td-date">${date}</td>
+      <td class="td-name">${esc(name)}</td>
+      <td class="td-email">${esc(r.email || '—')}</td>
+      <td>${esc(r.tel || '—')}</td>
+      <td class="td-motivo">${r.motivo ? `<span class="motivo-badge">${esc(r.motivo)}</span>` : '—'}</td>
+      <td><span class="status-badge s-${esc(r.status || 'new')}">${statusLabel(r.status)}</span></td>
+      <td>
+        <select class="status-select" onclick="event.stopPropagation()" onchange="quickStatus('${r.id}', this.value)">
+          <option value="new"       ${r.status==='new'       ?'selected':''}>Nuovo</option>
+          <option value="contacted" ${r.status==='contacted' ?'selected':''}>Contattato</option>
+          <option value="scheduled" ${r.status==='scheduled' ?'selected':''}>Programmato</option>
+          <option value="completed" ${r.status==='completed' ?'selected':''}>Completato</option>
+          <option value="archived"  ${r.status==='archived'  ?'selected':''}>Archiviato</option>
+        </select>
+      </td>
+    </tr>`;
+  }).join('');
+
+  tbody.querySelectorAll('tr[data-id]').forEach(tr => {
+    tr.addEventListener('click', () => openDrawer(tr.dataset.id));
+  });
+}
+
+function statusLabel(s) {
+  const map = { new:'Nuovo', contacted:'Contattato', scheduled:'Programmato', completed:'Completato', archived:'Archiviato' };
+  return map[s] || s || 'Nuovo';
+}
+
+function esc(s) {
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+async function quickStatus(id, status) {
+  if (!sb) return;
+  await sb.from('appointment_requests').update({ status }).eq('id', id);
+  const r = allRequests.find(x => x.id === id);
+  if (r) r.status = status;
+  updateStats(allRequests);
+  renderRequests(allRequests);
+}
+
+/* ─────────────────────────────────────────
+   FILTERS (stats cards)
+────────────────────────────────────────── */
+document.querySelectorAll('#stats-row .stat-card').forEach(card => {
+  card.addEventListener('click', () => {
+    document.querySelectorAll('#stats-row .stat-card').forEach(c => c.classList.remove('is-active'));
+    card.classList.add('is-active');
+    activeStatus = card.dataset.filterStatus || 'all';
+    document.querySelectorAll('#status-filters .filter-btn').forEach(b => {
+      b.classList.toggle('is-active', b.dataset.status === activeStatus);
+    });
+    renderRequests(allRequests);
+  });
+});
+
+document.querySelectorAll('#motivo-filters .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#motivo-filters .filter-btn').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    activeMotivo = btn.dataset.motivo;
+    renderRequests(allRequests);
+  });
+});
+
+document.querySelectorAll('#status-filters .filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('#status-filters .filter-btn').forEach(b => b.classList.remove('is-active'));
+    btn.classList.add('is-active');
+    activeStatus = btn.dataset.status;
+    document.querySelectorAll('#stats-row .stat-card').forEach(c => c.classList.remove('is-active'));
+    renderRequests(allRequests);
+  });
+});
+
+btnRefresh?.addEventListener('click', loadRequests);
+
+/* ─────────────────────────────────────────
+   DRAWER
+────────────────────────────────────────── */
+function openDrawer(id) {
+  const r = allRequests.find(x => x.id === id);
+  if (!r) return;
+  currentReqId = id;
+  const name = [r.nome, r.cognome].filter(Boolean).join(' ') || '—';
+  drawerName.textContent = name;
+
+  const dt = new Date(r.created_at).toLocaleString('it-IT', { dateStyle:'medium', timeStyle:'short' });
+
+  drawerContent.innerHTML = `
+    <div class="drawer-section">
+      <h4>Dati di contatto</h4>
+      <div class="drawer-row"><span class="dr-label">Nome</span><span class="dr-val">${esc(name)}</span></div>
+      <div class="drawer-row"><span class="dr-label">Email</span><span class="dr-val"><a href="mailto:${esc(r.email||'')}" style="color:var(--accent-2)">${esc(r.email||'—')}</a></span></div>
+      <div class="drawer-row"><span class="dr-label">Telefono</span><span class="dr-val">${r.tel ? `<a href="tel:${esc(r.tel)}" style="color:var(--accent-2)">${esc(r.tel)}</a>` : '—'}</span></div>
+      <div class="drawer-row"><span class="dr-label">Data</span><span class="dr-val">${dt}</span></div>
+      <div class="drawer-row"><span class="dr-label">Lingua</span><span class="dr-val">${(r.lang||'it').toUpperCase()}</span></div>
+    </div>
+    <div class="drawer-section">
+      <h4>Richiesta</h4>
+      <div class="drawer-row"><span class="dr-label">Motivo</span><span class="dr-val">${r.motivo ? `<span class="motivo-badge">${esc(r.motivo)}</span>` : '—'}</span></div>
+      ${r.messaggio ? `<div style="margin-top:0.75rem"><div class="drawer-notes">${esc(r.messaggio)}</div></div>` : ''}
+    </div>
+    <div class="drawer-section">
+      <h4>Status</h4>
+      <div class="drawer-status-row">
+        <label>Cambia status</label>
+        <select class="drawer-status-sel" id="drawer-status-sel">
+          <option value="new"       ${r.status==='new'       ?'selected':''}>Nuovo</option>
+          <option value="contacted" ${r.status==='contacted' ?'selected':''}>Contattato</option>
+          <option value="scheduled" ${r.status==='scheduled' ?'selected':''}>Programmato</option>
+          <option value="completed" ${r.status==='completed' ?'selected':''}>Completato</option>
+          <option value="archived"  ${r.status==='archived'  ?'selected':''}>Archiviato</option>
+        </select>
+      </div>
+    </div>
+    <div class="drawer-section">
+      <h4>Note admin</h4>
+      <textarea class="admin-notes-area" id="drawer-notes" placeholder="Aggiungi note interne…">${esc(r.admin_notes||'')}</textarea>
+      <div style="display:flex;align-items:center;gap:0.75rem;margin-top:0.65rem">
+        <button class="btn-save-notes" id="drawer-save-notes">Salva note</button>
+        <button class="${r.status==='archived'?'btn-archive btn-restore':'btn-archive'}" id="drawer-archive">${r.status==='archived'?'Ripristina':'Archivia'}</button>
+        <span class="notes-saved" id="notes-saved">Salvato ✓</span>
+      </div>
+    </div>`;
+
+  document.getElementById('drawer-status-sel').addEventListener('change', async function() {
+    const status = this.value;
+    if (!sb) return;
+    await sb.from('appointment_requests').update({ status }).eq('id', id);
+    const r2 = allRequests.find(x => x.id === id);
+    if (r2) r2.status = status;
+    updateStats(allRequests);
+    renderRequests(allRequests);
+  });
+
+  document.getElementById('drawer-save-notes').addEventListener('click', async () => {
+    const notes = document.getElementById('drawer-notes').value;
+    if (!sb) return;
+    await sb.from('appointment_requests').update({ admin_notes: notes }).eq('id', id);
+    const r2 = allRequests.find(x => x.id === id);
+    if (r2) r2.admin_notes = notes;
+    const ns = document.getElementById('notes-saved');
+    ns.classList.add('show');
+    setTimeout(() => ns.classList.remove('show'), 2000);
+  });
+
+  document.getElementById('drawer-archive').addEventListener('click', async () => {
+    const r2 = allRequests.find(x => x.id === id);
+    if (!r2 || !sb) return;
+    const newStatus = r2.status === 'archived' ? 'new' : 'archived';
+    await sb.from('appointment_requests').update({ status: newStatus }).eq('id', id);
+    r2.status = newStatus;
+    updateStats(allRequests);
+    renderRequests(allRequests);
+    closeDrawer();
+  });
+
+  drawerOverlay.classList.add('is-open');
+  reqDrawer.classList.add('is-open');
+}
+
+function closeDrawer() {
+  drawerOverlay.classList.remove('is-open');
+  reqDrawer.classList.remove('is-open');
+  currentReqId = null;
+}
+
+drawerClose.addEventListener('click', closeDrawer);
+drawerOverlay.addEventListener('click', closeDrawer);
+
+/* ─────────────────────────────────────────
+   REVIEWS
+────────────────────────────────────────── */
+async function loadReviews() {
+  const list = document.getElementById('reviews-list');
+  list.innerHTML = '<div class="spinner"></div>';
+
+  if (!sb) {
+    list.innerHTML = '<div class="empty-state"><p>Configura Supabase per gestire le recensioni.</p></div>';
+    return;
+  }
+
+  const { data, error } = await sb.from('reviews').select('*').order('sort_order').order('created_at', { ascending: false });
+  if (error) { list.innerHTML = '<div class="empty-state"><p>Errore nel caricamento.</p></div>'; return; }
+  renderReviews(data || []);
+}
+
+function renderReviews(reviews) {
+  const list = document.getElementById('reviews-list');
+  if (!reviews.length) {
+    list.innerHTML = '<div class="empty-state"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg><p>Nessuna recensione.</p></div>';
+    return;
+  }
+  list.innerHTML = reviews.map(r => `
+    <div class="review-row">
+      <div class="review-row-body">
+        <div class="review-row-quote">${esc(r.quote)}</div>
+        <div class="review-row-meta">${esc(r.author)}${r.role_text ? ' · ' + esc(r.role_text) : ''} · ${'★'.repeat(r.stars||5)}</div>
+      </div>
+      <div class="review-row-actions">
+        <button class="rv-btn" onclick="editReview('${r.id}','${esc(r.author)}','${esc(r.role_text||'')}',\`${esc(r.quote)}\`,${r.stars||5})">Modifica</button>
+        <div class="rv-toggle ${r.is_visible?'is-on':''}" title="${r.is_visible?'Visibile':'Nascosta'}" onclick="toggleReview('${r.id}',${r.is_visible})"></div>
+        <button class="rv-btn rv-btn-del" onclick="deleteReview('${r.id}')">Elimina</button>
+      </div>
+    </div>`).join('');
+}
+
+document.getElementById('btn-add-review').addEventListener('click', () => {
+  document.getElementById('rf-id').value = '';
+  document.getElementById('rf-name').value = '';
+  document.getElementById('rf-role').value = '';
+  document.getElementById('rf-quote').value = '';
+  document.getElementById('rf-stars').value = '5';
+  document.getElementById('review-form-title').textContent = 'Nuova recensione';
+  document.getElementById('review-form-wrap').style.display = '';
+});
+
+document.getElementById('rf-cancel').addEventListener('click', () => {
+  document.getElementById('review-form-wrap').style.display = 'none';
+});
+
+document.getElementById('rf-save').addEventListener('click', async () => {
+  const id    = document.getElementById('rf-id').value;
+  const author= document.getElementById('rf-name').value.trim();
+  const role  = document.getElementById('rf-role').value.trim();
+  const quote = document.getElementById('rf-quote').value.trim();
+  const stars = parseInt(document.getElementById('rf-stars').value) || 5;
+  if (!author || !quote) { alert('Nome e citazione sono obbligatori.'); return; }
+
+  if (!sb) { alert('Supabase non configurato.'); return; }
+
+  if (id) {
+    await sb.from('reviews').update({ author, role_text: role, quote, stars }).eq('id', id);
+  } else {
+    await sb.from('reviews').insert({ author, role_text: role, quote, stars, is_visible: true });
+  }
+  document.getElementById('review-form-wrap').style.display = 'none';
+  loadReviews();
+});
+
+function editReview(id, author, role, quote, stars) {
+  document.getElementById('rf-id').value    = id;
+  document.getElementById('rf-name').value  = author;
+  document.getElementById('rf-role').value  = role;
+  document.getElementById('rf-quote').value = quote;
+  document.getElementById('rf-stars').value = stars;
+  document.getElementById('review-form-title').textContent = 'Modifica recensione';
+  document.getElementById('review-form-wrap').style.display = '';
+}
+
+async function toggleReview(id, current) {
+  if (!sb) return;
+  await sb.from('reviews').update({ is_visible: !current }).eq('id', id);
+  loadReviews();
+}
+
+async function deleteReview(id) {
+  if (!confirm('Eliminare questa recensione?')) return;
+  if (!sb) return;
+  await sb.from('reviews').delete().eq('id', id);
+  loadReviews();
+}
+
+/* ─────────────────────────────────────────
+   ANALYTICS
+────────────────────────────────────────── */
+function initAnalytics() {
+  if (!anMap) {
+    anMap = L.map('an-map', { zoomControl: true, scrollWheelZoom: false }).setView([42, 12], 5);
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '© OpenStreetMap © CARTO', maxZoom: 18
+    }).addTo(anMap);
+    anMarkers = L.layerGroup().addTo(anMap);
+  }
+  loadAnalytics();
+
+  document.querySelectorAll('#analytics-period .filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('#analytics-period .filter-btn').forEach(b => b.classList.remove('is-active'));
+      btn.classList.add('is-active');
+      anPeriod = parseInt(btn.dataset.period);
+      loadAnalytics();
+    });
+  });
+
+  document.getElementById('btn-refresh-analytics')?.addEventListener('click', loadAnalytics);
+  loadLive();
+  setInterval(loadLive, 30000);
+}
+
+async function loadAnalytics() {
+  if (!sb) {
+    document.getElementById('an-pages').innerHTML = '<div class="empty-state" style="padding:1.5rem"><p>Supabase non configurato.</p></div>';
+    document.getElementById('an-cities').innerHTML = '<div class="empty-state" style="padding:1.5rem"><p></p></div>';
+    return;
+  }
+
+  let query = sb.from('analytics_events').select('*');
+  if (anPeriod > 0) {
+    const since = new Date(Date.now() - anPeriod * 86400000).toISOString();
+    query = query.gte('created_at', since);
+  }
+  const { data } = await query;
+  if (!data) return;
+
+  document.getElementById('an-total-label').textContent = `${data.length} visite`;
+
+  // Pages
+  const pageCounts = {};
+  data.forEach(e => { const p = e.page || 'index.html'; pageCounts[p] = (pageCounts[p] || 0) + 1; });
+  const pagesSorted = Object.entries(pageCounts).sort((a,b) => b[1]-a[1]);
+  const maxP = pagesSorted[0]?.[1] || 1;
+  document.getElementById('an-pages').innerHTML = pagesSorted.slice(0,8).map(([p,n]) => `
+    <div class="an-row">
+      <span class="an-label">${esc(p)}</span>
+      <div class="an-bar-wrap"><div class="an-bar" style="width:${Math.round(n/maxP*100)}%"></div></div>
+      <span class="an-count">${n}</span>
+      <span class="an-pct">${Math.round(n/data.length*100)}%</span>
+    </div>`).join('') || '<p style="color:var(--muted);padding:1rem 0;font-size:0.85rem">Nessun dato.</p>';
+
+  // Cities
+  const cityCounts = {};
+  data.filter(e => e.city).forEach(e => {
+    const key = e.city + '|' + (e.region||'') + '|' + (e.country||'');
+    cityCounts[key] = (cityCounts[key] || 0) + 1;
+  });
+  const citiesSorted = Object.entries(cityCounts).sort((a,b) => b[1]-a[1]);
+  document.getElementById('an-cities').innerHTML = citiesSorted.slice(0,10).map(([key,n], i) => {
+    const [city,region] = key.split('|');
+    return `<div class="an-cities-row">
+      <span class="an-cities-rank">${i+1}</span>
+      <span class="an-cities-name">${esc(city)}</span>
+      <span class="an-cities-region">${esc(region)}</span>
+      <span class="an-cities-count">${n}</span>
+    </div>`;
+  }).join('') || '<p style="color:var(--muted);padding:1rem 0;font-size:0.85rem">Nessun dato geografico.</p>';
+
+  // Map markers
+  anMarkers.clearLayers();
+  const geoPoints = {};
+  data.filter(e => e.lat && e.lng).forEach(e => {
+    const key = Math.round(e.lat*10)/10 + ',' + Math.round(e.lng*10)/10;
+    if (!geoPoints[key]) geoPoints[key] = { lat:e.lat, lng:e.lng, city:e.city||'', count:0 };
+    geoPoints[key].count++;
+  });
+  Object.values(geoPoints).forEach(p => {
+    const r = Math.min(6 + p.count * 2, 20);
+    L.circleMarker([p.lat, p.lng], { radius:r, fillColor:'#6B8F71', color:'rgba(107,143,113,0.4)', weight:1.5, fillOpacity:0.7 })
+      .bindPopup(`<strong>${esc(p.city)}</strong><br>${p.count} visite`)
+      .addTo(anMarkers);
+  });
+  if (Object.keys(geoPoints).length > 0) {
+    const pts = Object.values(geoPoints).map(p => [p.lat, p.lng]);
+    try { anMap.fitBounds(L.latLngBounds(pts).pad(0.2)); } catch(e) {}
+  }
+}
+
+async function loadLive() {
+  const dot   = document.getElementById('live-dot');
+  const count = document.getElementById('live-count');
+  const rows  = document.getElementById('live-rows');
+  const sub   = document.getElementById('live-sub');
+
+  if (!sb) {
+    count.textContent = '0';
+    dot.classList.add('is-empty');
+    rows.innerHTML = '';
+    return;
+  }
+
+  const since = new Date(Date.now() - 35000).toISOString();
+  const { data } = await sb.from('analytics_events').select('page,city,country,created_at').gte('created_at', since).order('created_at', { ascending:false });
+
+  const live = data || [];
+  count.textContent = live.length;
+  dot.classList.toggle('is-empty', live.length === 0);
+  sub.textContent = 'Aggiornato ' + new Date().toLocaleTimeString('it-IT', { timeStyle:'short' });
+
+  rows.innerHTML = live.slice(0,8).map(e => {
+    const secs = Math.round((Date.now() - new Date(e.created_at).getTime()) / 1000);
+    const ago = secs < 60 ? secs + 's fa' : Math.round(secs/60) + 'm fa';
+    return `<div class="live-row">
+      <span class="live-row-page">${esc(e.page||'index.html')}</span>
+      <span class="live-row-loc">${e.city ? esc(e.city) + (e.country ? ', ' + esc(e.country) : '') : 'Posizione sconosciuta'}</span>
+      <span class="live-row-ago">${ago}</span>
+    </div>`;
+  }).join('');
+}
+
+/* ─────────────────────────────────────────
+   START
+────────────────────────────────────────── */
+checkSession();
+</script>
+</body>
+</html>
