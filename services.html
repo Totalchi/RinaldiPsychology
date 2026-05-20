@@ -7,13 +7,12 @@
 <meta name="description" content="I servizi di Ester Rinaldi: supporto per ansia, depressione, burnout, transizioni di vita, crescita personale e valutazione psicologica."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 <style>
-  /* Services page specific */
   .svc-detail {
     padding: 48px 0;
-    border-bottom: 1px solid var(--ash);
+    border-bottom: 1px solid var(--border);
   }
   .svc-detail:last-child { border-bottom: 0; }
   .svc-detail-inner {
@@ -29,20 +28,27 @@
   .svc-detail-num {
     font-family: var(--f-display);
     font-size: 5rem;
-    font-weight: 300;
+    font-weight: 400;
     line-height: 1;
-    color: var(--ash);
+    color: var(--border-2);
     letter-spacing: -0.04em;
     user-select: none;
+    font-style: italic;
   }
   .svc-detail-left { display: flex; flex-direction: column; gap: 16px; }
   .svc-detail-right { display: flex; flex-direction: column; gap: 16px; }
+  .svc-expect-box {
+    padding: 24px;
+    background: var(--cream);
+    border-radius: var(--r-lg);
+    border: 1px solid var(--border);
+  }
   .svc-expect-title {
     font-size: 0.72rem;
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--silver);
+    color: var(--stone-2);
     margin-bottom: 12px;
   }
   .svc-expect-list {
@@ -56,7 +62,7 @@
     align-items: flex-start;
     gap: 10px;
     font-size: 0.875rem;
-    color: var(--slate);
+    color: var(--stone);
     line-height: 1.6;
   }
   .svc-expect-list li::before {
@@ -65,44 +71,9 @@
     width: 5px;
     height: 5px;
     border-radius: 50%;
-    background: var(--silver);
+    background: var(--sage);
     flex-shrink: 0;
     margin-top: 7px;
-  }
-  .how-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 16px;
-    margin-top: 40px;
-  }
-  @media (max-width: 640px) { .how-grid { grid-template-columns: 1fr; } }
-  .how-card {
-    padding: 28px;
-    background: var(--white);
-    border: 1px solid var(--ash);
-    border-radius: var(--r-card);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    transition: box-shadow .2s;
-  }
-  .how-card:hover { box-shadow: var(--sh-subtle); }
-  .how-card-num {
-    font-family: var(--f-display);
-    font-size: 1.8rem;
-    font-weight: 300;
-    color: var(--ash);
-    line-height: 1;
-  }
-  .how-card-title {
-    font-size: 0.875rem;
-    font-weight: 600;
-    color: var(--ink);
-  }
-  .how-card-desc {
-    font-size: 0.82rem;
-    color: var(--slate);
-    line-height: 1.65;
   }
 </style>
 </head>
@@ -111,7 +82,7 @@
 <!-- NAV -->
 <nav id="main-nav" class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">Ester Rinaldi<span data-i18n="nav.about">Psicologa Clinica</span></a>
+    <a href="index.html" class="nav-logo">Ester Rinaldi</a>
     <ul class="nav-links">
       <li><a href="index.html" data-i18n="nav.home">Home</a></li>
       <li><a href="about.html" data-i18n="nav.about">Chi sono</a></li>
@@ -119,8 +90,11 @@
       <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
     </ul>
     <div class="nav-right">
-      <div class="nav-lang"><button data-lang-btn="it" class="is-active">IT</button><button data-lang-btn="en">EN</button></div>
-      <a href="appointment.html" class="btn btn-filled btn-sm" data-i18n="nav.appointment">Prenota</a>
+      <div class="nav-lang">
+        <button data-lang-btn="it" class="is-active">IT</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="appointment.html" class="btn btn-primary btn-sm nav-cta-desktop" data-i18n="nav.appointment">Prenota</a>
       <button id="nav-burger" class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -137,16 +111,22 @@
       <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
       <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
     </ul>
-    <div class="mob-lang-row"><button data-lang-btn="it" class="is-active">Italiano</button><button data-lang-btn="en">English</button></div>
+    <div class="mob-footer">
+      <div class="mob-lang-row">
+        <button data-lang-btn="it" class="is-active">Italiano</button>
+        <button data-lang-btn="en">English</button>
+      </div>
+      <a href="appointment.html" class="btn btn-primary" style="width:100%;justify-content:center" data-i18n="nav.appointment">Prenota una sessione</a>
+    </div>
   </div>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-inner">
-    <span class="label reveal" data-i18n="services.label">Servizi</span>
+    <span class="eyebrow reveal" data-i18n="services.label">Servizi</span>
     <h1 class="heading-lg reveal reveal-d1" data-i18n-html="svc.ph.title">Come posso <em>aiutarti</em>.</h1>
-    <p class="subheading reveal reveal-d2" style="max-width:560px;margin-top:16px" data-i18n="svc.ph.lead">Offro un supporto su misura per le tue esigenze. Che tu stia attraversando un momento difficile o voglia semplicemente crescere, c'è un percorso pensato per te.</p>
+    <p class="subheading reveal reveal-d2" style="max-width:560px;margin-top:1rem" data-i18n="svc.ph.lead">Offro un supporto su misura per le tue esigenze. Che tu stia attraversando un momento difficile o voglia semplicemente crescere, c'è un percorso pensato per te.</p>
   </div>
 </div>
 
@@ -162,22 +142,22 @@
           <div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
               <div class="svc-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M12 16h.01"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M12 16h.01"/></svg>
               </div>
-              <span class="badge" data-i18n="svc1.badge">Più richiesto</span>
+              <span class="tag" data-i18n="svc1.badge">Più richiesto</span>
             </div>
             <h2 class="heading-sm" data-i18n="svc1.title">Ansia e Depressione</h2>
           </div>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc1.long1">
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc1.long1">
             Ansia e depressione sono tra le difficoltà più diffuse, eppure spesso vissute in silenzio e solitudine. L'ansia può manifestarsi come preoccupazione costante, attacchi di panico, tensione fisica o evitamento di situazioni quotidiane. La depressione porta con sé pesantezza, perdita di motivazione, senso di vuoto e difficoltà a trovare gioia nelle cose che una volta amavi.
           </p>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc1.long2">
-            Attraverso la CBT, lavoriamo insieme per identificare e ristrutturare i pensieri automatici negativi che alimentano questi stati. Con l'ACT, impari a sviluppare una relazione diversa con le emozioni difficili — non per eliminarle, ma per non lasciarti dominare da loro. Il risultato è una maggiore chiarezza mentale, più energia e la capacità di tornare a vivere pienamente.
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc1.long2">
+            Attraverso la CBT, lavoriamo insieme per identificare e ristrutturare i pensieri automatici negativi che alimentano questi stati. Con l'ACT, impari a sviluppare una relazione diversa con le emozioni difficili — non per eliminarle, ma per non lasciarti dominare da loro.
           </p>
-          <a href="appointment.html" class="btn btn-ghost-subtle btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
+          <a href="appointment.html" class="btn btn-outline btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
         </div>
         <div class="svc-detail-right reveal reveal-d2">
-          <div style="padding:24px;background:var(--ghost);border-radius:var(--r-card);border:1px solid var(--ash)">
+          <div class="svc-expect-box">
             <p class="svc-expect-title" data-i18n="svc.expect.title">Cosa puoi aspettarti</p>
             <ul class="svc-expect-list">
               <li data-i18n="svc1.exp1">Valutazione personalizzata dei tuoi schemi di pensiero e comportamento</li>
@@ -197,21 +177,21 @@
           <div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
               <div class="svc-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
               </div>
             </div>
             <h2 class="heading-sm" data-i18n="svc2.title">Transizioni di vita e Burnout</h2>
           </div>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc2.long1">
-            La vita è fatta di cambiamenti — alcuni scelti, altri subiti. Un cambio di lavoro, la fine di una relazione, un trasloco, la perdita di una persona cara, l'ingresso in una nuova fase della vita: queste transizioni possono destabilizzarci profondamente, anche quando in superficie sembrano positive. Il burnout, invece, è il risultato di uno stress cronico non gestito, che porta a un esaurimento delle risorse fisiche, emotive e cognitive.
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc2.long1">
+            La vita è fatta di cambiamenti — alcuni scelti, altri subiti. Un cambio di lavoro, la fine di una relazione, un trasloco, la perdita di una persona cara, l'ingresso in una nuova fase della vita: queste transizioni possono destabilizzarci profondamente. Il burnout, invece, è il risultato di uno stress cronico non gestito.
           </p>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc2.long2">
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc2.long2">
             In terapia creiamo uno spazio per elaborare le perdite e i cambiamenti, ritrovare l'identità in un contesto nuovo e costruire strumenti concreti per la resilienza. Lavorare sul burnout significa anche riconnettersi con i propri valori e confini, imparare a dire no e a prendersi cura di sé senza sensi di colpa.
           </p>
-          <a href="appointment.html" class="btn btn-ghost-subtle btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
+          <a href="appointment.html" class="btn btn-outline btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
         </div>
         <div class="svc-detail-right reveal reveal-d2">
-          <div style="padding:24px;background:var(--ghost);border-radius:var(--r-card);border:1px solid var(--ash)">
+          <div class="svc-expect-box">
             <p class="svc-expect-title" data-i18n="svc.expect.title">Cosa puoi aspettarti</p>
             <ul class="svc-expect-list">
               <li data-i18n="svc2.exp1">Elaborazione emotiva delle transizioni e delle perdite in modo guidato e sicuro</li>
@@ -231,21 +211,21 @@
           <div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
               <div class="svc-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 12 7 9.5 7 6a5 5 0 0110 0c0 3.5-5 6-5 6z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22V12M12 12C12 12 7 9.5 7 6a5 5 0 0110 0c0 3.5-5 6-5 6z"/></svg>
               </div>
             </div>
             <h2 class="heading-sm" data-i18n="svc3.title">Crescita Personale e Autostima</h2>
           </div>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc3.long1">
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc3.long1">
             Non occorre stare "male" per iniziare la terapia. Molte persone scelgono un percorso psicologico perché vogliono conoscersi meglio, migliorare le proprie relazioni, rafforzare l'autostima o semplicemente diventare la versione migliore di sé stesse. La crescita personale è un processo continuo e coraggioso.
           </p>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc3.long2">
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc3.long2">
             In questo percorso lavoriamo su credenze limitanti su di sé, su schemi relazionali ricorrenti che causano sofferenza, e sulla capacità di stabilire confini sani con gli altri. L'autostima autentica non si costruisce ignorando i propri limiti, ma imparando ad accettarsi pienamente mentre si lavora verso il cambiamento desiderato.
           </p>
-          <a href="appointment.html" class="btn btn-ghost-subtle btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
+          <a href="appointment.html" class="btn btn-outline btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
         </div>
         <div class="svc-detail-right reveal reveal-d2">
-          <div style="padding:24px;background:var(--ghost);border-radius:var(--r-card);border:1px solid var(--ash)">
+          <div class="svc-expect-box">
             <p class="svc-expect-title" data-i18n="svc.expect.title">Cosa puoi aspettarti</p>
             <ul class="svc-expect-list">
               <li data-i18n="svc3.exp1">Esplorazione delle credenze su di sé e identificazione di schemi limitanti</li>
@@ -265,21 +245,21 @@
           <div>
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
               <div class="svc-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6M9 16h6M9 8h6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12h6M9 16h6M9 8h6M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
               </div>
             </div>
             <h2 class="heading-sm" data-i18n="svc4.title">Valutazione Psicologica</h2>
           </div>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc4.long1">
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc4.long1">
             A volte la difficoltà principale non è trovare supporto, ma capire con precisione cosa sta succedendo. La valutazione psicologica è un processo strutturato che utilizza colloqui clinici e strumenti psicometrici standardizzati per analizzare il funzionamento emotivo, cognitivo e comportamentale di una persona.
           </p>
-          <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="svc4.long2">
-            L'esito della valutazione è una relazione chiara e dettagliata che fornisce una mappa del tuo profilo psicologico: punti di forza, aree di vulnerabilità, eventuali diagnosi e raccomandazioni per il percorso di supporto più adatto. Una valutazione accurata è la base per intervenire con precisione e rispetto.
+          <p style="font-size:.875rem;color:var(--stone);line-height:1.8" data-i18n="svc4.long2">
+            L'esito della valutazione è una relazione chiara e dettagliata che fornisce una mappa del tuo profilo psicologico: punti di forza, aree di vulnerabilità, eventuali diagnosi e raccomandazioni per il percorso di supporto più adatto.
           </p>
-          <a href="appointment.html" class="btn btn-ghost-subtle btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
+          <a href="appointment.html" class="btn btn-outline btn-sm" style="align-self:flex-start" data-i18n="svc.cta">Parlane con me →</a>
         </div>
         <div class="svc-detail-right reveal reveal-d2">
-          <div style="padding:24px;background:var(--ghost);border-radius:var(--r-card);border:1px solid var(--ash)">
+          <div class="svc-expect-box">
             <p class="svc-expect-title" data-i18n="svc.expect.title">Cosa puoi aspettarti</p>
             <ul class="svc-expect-list">
               <li data-i18n="svc4.exp1">Colloqui clinici approfonditi e somministrazione di test psicometrici validati</li>
@@ -294,40 +274,37 @@
   </div>
 </section>
 
-<div class="rainbow-divider"></div>
-
 <!-- HOW I WORK -->
-<section class="section section-ghost">
+<section class="section section-cream">
   <div class="container">
-    <div class="s-head reveal" style="text-align:center;margin-bottom:16px">
-      <p class="label" style="margin-bottom:12px" data-i18n="svc.how.label">Come lavoro</p>
+    <div class="s-head text-center reveal" style="margin-bottom:40px">
+      <span class="eyebrow" style="display:block;margin-bottom:0.75rem" data-i18n="svc.how.label">Come lavoro</span>
       <h2 class="heading" data-i18n="svc.how.title">Il mio metodo</h2>
-      <p class="subheading reveal reveal-d1" style="max-width:560px;margin:16px auto 0" data-i18n="svc.how.sub">Ogni percorso è unico, ma il mio modo di lavorare segue principi chiari: rispetto, collaborazione e strumenti validati dalla ricerca.</p>
+      <p class="subheading reveal reveal-d1" style="max-width:560px;margin:1rem auto 0" data-i18n="svc.how.sub">Ogni percorso è unico, ma il mio modo di lavorare segue principi chiari: rispetto, collaborazione e strumenti validati dalla ricerca.</p>
     </div>
 
-    <div class="how-grid">
-      <div class="how-card reveal">
-        <div class="how-card-num">01</div>
-        <div class="how-card-title" data-i18n="svc.how1.title">Prima consulenza gratuita</div>
-        <div class="how-card-desc" data-i18n="svc.how1.desc">Il nostro primo incontro è un colloquio conoscitivo senza impegno. Parliamo di quello che stai vivendo, dei tuoi obiettivi e di come potrei aiutarti. Decidiamo insieme se proseguire.</div>
+    <div class="process-grid">
+      <div class="process-step reveal">
+        <div class="process-step-num">01</div>
+        <h3 data-i18n="svc.how1.title">Prima consulenza gratuita</h3>
+        <p data-i18n="svc.how1.desc">Il nostro primo incontro è un colloquio conoscitivo senza impegno. Parliamo di quello che stai vivendo, dei tuoi obiettivi e di come potrei aiutarti. Decidiamo insieme se proseguire.</p>
       </div>
-      <div class="how-card reveal reveal-d1">
-        <div class="how-card-num">02</div>
-        <div class="how-card-title" data-i18n="svc.how2.title">Valutazione e piano terapeutico</div>
-        <div class="how-card-desc" data-i18n="svc.how2.desc">Nelle prime sessioni approfondisco la tua storia, i tuoi bisogni e le tue risorse. Costruiamo insieme un piano di lavoro con obiettivi chiari e verificabili.</div>
+      <div class="process-step reveal reveal-d1">
+        <div class="process-step-num">02</div>
+        <h3 data-i18n="svc.how2.title">Valutazione e piano terapeutico</h3>
+        <p data-i18n="svc.how2.desc">Nelle prime sessioni approfondisco la tua storia, i tuoi bisogni e le tue risorse. Costruiamo insieme un piano di lavoro con obiettivi chiari e verificabili.</p>
       </div>
-      <div class="how-card reveal reveal-d2">
-        <div class="how-card-num">03</div>
-        <div class="how-card-title" data-i18n="svc.how3.title">Sessioni regolari (CBT + ACT)</div>
-        <div class="how-card-desc" data-i18n="svc.how3.desc">Ogni seduta di 50 minuti combina riflessione, esercizi pratici e sviluppo di nuove competenze. Sessioni settimanali o bisettimanali, online o in presenza.</div>
+      <div class="process-step reveal reveal-d2">
+        <div class="process-step-num">03</div>
+        <h3 data-i18n="svc.how3.title">Sessioni regolari (CBT + ACT)</h3>
+        <p data-i18n="svc.how3.desc">Ogni seduta di 50 minuti combina riflessione, esercizi pratici e sviluppo di nuove competenze. Sessioni settimanali o bisettimanali, online o in presenza.</p>
       </div>
-      <div class="how-card reveal reveal-d3">
-        <div class="how-card-num">04</div>
-        <div class="how-card-title" data-i18n="svc.how4.title">Valutazione continua e chiusura</div>
-        <div class="how-card-desc" data-i18n="svc.how4.desc">Monitoriamo regolarmente i progressi e adattiamo il percorso. La terapia ha un termine: lavoriamo verso la tua autonomia, non verso la dipendenza.</div>
+      <div class="process-step reveal reveal-d3">
+        <div class="process-step-num">04</div>
+        <h3 data-i18n="svc.how4.title">Valutazione continua e chiusura</h3>
+        <p data-i18n="svc.how4.desc">Monitoriamo regolarmente i progressi e adattiamo il percorso. La terapia ha un termine: lavoriamo verso la tua autonomia, non verso la dipendenza.</p>
       </div>
     </div>
-
   </div>
 </section>
 
@@ -336,16 +313,16 @@
   <div class="container">
     <h2 class="heading reveal" data-i18n="cta.title">Pronta a fare il prossimo passo?</h2>
     <p class="reveal reveal-d1" data-i18n="cta.sub">Ho disponibilità per nuovi clienti. Le sessioni durano 50 minuti, online o in presenza.</p>
-    <a href="appointment.html" class="btn btn-ghost reveal reveal-d2" style="border-color:rgba(255,255,255,.3);color:#fff" data-i18n="cta.btn">Prenota la tua prima sessione</a>
+    <a href="appointment.html" class="btn btn-outline-white reveal reveal-d2" data-i18n="cta.btn">Prenota la tua prima sessione</a>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-inner">
+  <div class="footer-grid">
     <div>
-      <div class="footer-brand-name">Ester Rinaldi</div>
-      <p class="footer-brand-desc" data-i18n="footer.desc">Psicologa clinica specializzata in ansia, depressione, transizioni di vita e crescita personale.</p>
+      <div class="footer-brand">Ester Rinaldi</div>
+      <p class="footer-desc" data-i18n="footer.desc">Psicologa clinica specializzata in ansia, depressione, transizioni di vita e crescita personale.</p>
     </div>
     <div>
       <div class="footer-col-title" data-i18n="footer.nav">Navigazione</div>
@@ -369,7 +346,10 @@
   </div>
 </footer>
 
-<div class="cookie-bar" id="cookie-bar"><p id="cookie-p" data-i18n-html="cookie.p">Questo sito utilizza cookie essenziali.</p><button class="btn btn-filled btn-sm" id="cookie-ok" data-i18n="cookie.btn">Accetta</button></div>
+<div class="cookie-bar" id="cookie-bar">
+  <p id="cookie-p" data-i18n-html="cookie.p">Questo sito utilizza cookie essenziali.</p>
+  <button class="btn btn-primary btn-sm" id="cookie-ok" data-i18n="cookie.btn">Accetta</button>
+</div>
 <script src="js/main.js"></script>
 </body>
 </html>

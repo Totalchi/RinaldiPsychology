@@ -7,7 +7,7 @@
 <meta name="description" content="Scopri chi è Ester Rinaldi, psicologa clinica. Il suo approccio CBT e ACT, i suoi valori e la sua visione del benessere mentale."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;1,300;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="css/style.css"/>
 </head>
 <body>
@@ -15,7 +15,7 @@
 <!-- NAV -->
 <nav id="main-nav" class="nav">
   <div class="nav-inner">
-    <a href="index.html" class="nav-logo">Ester Rinaldi<span data-i18n="nav.about">Psicologa Clinica</span></a>
+    <a href="index.html" class="nav-logo">Ester Rinaldi</a>
     <ul class="nav-links">
       <li><a href="index.html" data-i18n="nav.home">Home</a></li>
       <li><a href="about.html" class="active" data-i18n="nav.about">Chi sono</a></li>
@@ -23,8 +23,11 @@
       <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
     </ul>
     <div class="nav-right">
-      <div class="nav-lang"><button data-lang-btn="it" class="is-active">IT</button><button data-lang-btn="en">EN</button></div>
-      <a href="appointment.html" class="btn btn-filled btn-sm" data-i18n="nav.appointment">Prenota</a>
+      <div class="nav-lang">
+        <button data-lang-btn="it" class="is-active">IT</button>
+        <button data-lang-btn="en">EN</button>
+      </div>
+      <a href="appointment.html" class="btn btn-primary btn-sm nav-cta-desktop" data-i18n="nav.appointment">Prenota</a>
       <button id="nav-burger" class="nav-burger" aria-label="Menu"><span></span><span></span><span></span></button>
     </div>
   </div>
@@ -41,152 +44,155 @@
       <li><a href="services.html" data-i18n="nav.services">Servizi</a></li>
       <li><a href="appointment.html" data-i18n="nav.appointment">Prenota una sessione</a></li>
     </ul>
-    <div class="mob-lang-row"><button data-lang-btn="it" class="is-active">Italiano</button><button data-lang-btn="en">English</button></div>
+    <div class="mob-footer">
+      <div class="mob-lang-row">
+        <button data-lang-btn="it" class="is-active">Italiano</button>
+        <button data-lang-btn="en">English</button>
+      </div>
+      <a href="appointment.html" class="btn btn-primary" style="width:100%;justify-content:center" data-i18n="nav.appointment">Prenota una sessione</a>
+    </div>
   </div>
 </div>
 
 <!-- PAGE HERO -->
 <div class="page-hero">
   <div class="page-hero-inner">
-    <span class="label reveal" data-i18n="about.ph.label">Chi è Ester</span>
+    <span class="eyebrow reveal" data-i18n="about.ph.label">Chi è Ester</span>
     <h1 class="heading-lg reveal reveal-d1" data-i18n-html="about.ph.title">Una psicologa che <em>ti ascolta davvero</em>.</h1>
-    <p class="subheading reveal reveal-d2" style="max-width:560px;margin-top:16px" data-i18n="about.ph.lead">Con formazione clinica rigorosa e un approccio caldo e personale, accompagno le persone attraverso le sfide della vita verso un benessere autentico e duraturo.</p>
+    <p class="subheading reveal reveal-d2" style="max-width:560px;margin-top:1rem" data-i18n="about.ph.lead">Con formazione clinica rigorosa e un approccio caldo e personale, accompagno le persone attraverso le sfide della vita verso un benessere autentico e duraturo.</p>
   </div>
 </div>
 
 <!-- ABOUT MAIN -->
-<section class="section section-ghost">
+<section class="section section-cream">
   <div class="container">
-    <div class="about-grid">
+    <div class="split-grid">
 
-      <!-- LEFT: image placeholder -->
-      <div class="about-img reveal">
-        <div class="about-img-placeholder">E.R.</div>
+      <div class="split-image reveal">
+        <div class="split-image-placeholder">E.R.</div>
       </div>
 
-      <!-- RIGHT: text -->
-      <div class="about-text">
-
+      <div class="split-text">
         <div class="reveal">
-          <p class="label" style="margin-bottom:12px" data-i18n="about.label">Chi è Ester</p>
-          <h2 class="heading" data-i18n="about.title">Chi sono</h2>
+          <span class="eyebrow" data-i18n="about.label">Chi è Ester</span>
+          <h2 class="heading" style="margin-top:0.75rem" data-i18n="about.title">Chi sono</h2>
         </div>
 
         <p class="reveal reveal-d1" data-i18n="about.p1">
           Sono Ester Rinaldi, psicologa clinica con una vera passione per il benessere delle persone. Ho completato la mia formazione con una profonda dedizione: studiare non solo le tecniche, ma anche il modo in cui ogni individuo porta con sé la propria storia unica. Credo che ogni persona meriti uno spazio in cui sentirsi davvero vista e ascoltata, senza filtri né giudizi.
         </p>
         <p class="reveal reveal-d2" data-i18n="about.p2">
-          Nel mio lavoro clinico utilizzo un approccio integrativo che unisce la Terapia Cognitivo-Comportamentale (CBT) e l'Acceptance and Commitment Therapy (ACT). Questi strumenti, fondati su solide prove scientifiche, mi permettono di aiutarti a comprendere i pattern di pensiero che ti bloccano, sviluppare strategie concrete per il cambiamento e costruire una relazione più flessibile e compassionevole con te stesso. Non esiste un percorso uguale per tutti: ogni lavoro terapeutico è personalizzato in base ai tuoi obiettivi, al tuo ritmo e alle tue risorse.
+          Nel mio lavoro clinico utilizzo un approccio integrativo che unisce la Terapia Cognitivo-Comportamentale (CBT) e l'Acceptance and Commitment Therapy (ACT). Questi strumenti, fondati su solide prove scientifiche, mi permettono di aiutarti a comprendere i pattern di pensiero che ti bloccano, sviluppare strategie concrete per il cambiamento e costruire una relazione più flessibile e compassionevole con te stesso.
         </p>
         <p class="reveal reveal-d3" data-i18n="about.p3">
-          Ciò che guida la mia pratica è una convinzione semplice ma profonda: tutti meritano cure compassionevoli e accessibili. Non è necessario trovarsi in una situazione di crisi per cercare supporto psicologico. Scegliere di prendersi cura della propria mente è uno degli atti più coraggiosi e amorevoli verso sé stessi. Sono qui per camminare con te in questo percorso, con presenza, professionalità e autentico calore umano.
+          Ciò che guida la mia pratica è una convinzione semplice ma profonda: tutti meritano cure compassionevoli e accessibili. Non è necessario trovarsi in una situazione di crisi per cercare supporto psicologico. Scegliere di prendersi cura della propria mente è uno degli atti più coraggiosi e amorevoli verso sé stessi.
         </p>
 
-        <!-- Values -->
-        <div class="about-values reveal">
-          <div class="about-value">
-            <svg style="flex-shrink:0;margin-top:2px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+        <div class="values-list reveal reveal-d3">
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg>
+            </div>
             <div>
-              <div class="about-value-title" data-i18n="about.v1.title">Approccio evidence-based</div>
-              <div class="about-value-desc" data-i18n="about.v1.desc">CBT e ACT integrati e adattati alle tue esigenze individuali, con interventi fondati su ricerca scientifica aggiornata.</div>
+              <div class="value-title" data-i18n="about.v1.title">Approccio evidence-based</div>
+              <div class="value-desc" data-i18n="about.v1.desc">CBT e ACT integrati e adattati alle tue esigenze individuali, con interventi fondati su ricerca scientifica aggiornata.</div>
             </div>
           </div>
-          <div class="about-value">
-            <svg style="flex-shrink:0;margin-top:2px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
             <div>
-              <div class="about-value-title" data-i18n="about.v2.title">Spazio senza giudizio</div>
-              <div class="about-value-desc" data-i18n="about.v2.desc">Un ambiente sicuro, riservato e accogliente dove puoi esprimerti liberamente. La riservatezza è assoluta.</div>
+              <div class="value-title" data-i18n="about.v2.title">Spazio senza giudizio</div>
+              <div class="value-desc" data-i18n="about.v2.desc">Un ambiente sicuro, riservato e accogliente dove puoi esprimerti liberamente. La riservatezza è assoluta.</div>
             </div>
           </div>
-          <div class="about-value">
-            <svg style="flex-shrink:0;margin-top:2px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+            </div>
             <div>
-              <div class="about-value-title" data-i18n="about.v3.title">Collaborativa</div>
-              <div class="about-value-desc" data-i18n="about.v3.desc">Non sono una esperta che ti dice cosa fare. Lavoriamo insieme come partner verso i tuoi obiettivi.</div>
+              <div class="value-title" data-i18n="about.v3.title">Collaborativa</div>
+              <div class="value-desc" data-i18n="about.v3.desc">Non sono una esperta che ti dice cosa fare. Lavoriamo insieme come partner verso i tuoi obiettivi.</div>
             </div>
           </div>
-          <div class="about-value">
-            <svg style="flex-shrink:0;margin-top:2px" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--slate)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+          <div class="value-item">
+            <div class="value-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+            </div>
             <div>
-              <div class="about-value-title" data-i18n="about.v4.title">Accessibile</div>
-              <div class="about-value-desc" data-i18n="about.v4.desc">Ogni persona merita supporto psicologico di qualità. Offro sessioni online e in presenza per adattarmi alla tua vita.</div>
+              <div class="value-title" data-i18n="about.v4.title">Accessibile</div>
+              <div class="value-desc" data-i18n="about.v4.desc">Ogni persona merita supporto psicologico di qualità. Offro sessioni online e in presenza per adattarmi alla tua vita.</div>
             </div>
           </div>
         </div>
 
-        <div class="reveal" style="margin-top:8px">
-          <a href="appointment.html" class="btn btn-filled btn-lg" data-i18n="about.cta2">Prenota una sessione conoscitiva</a>
+        <div class="reveal">
+          <a href="appointment.html" class="btn btn-primary btn-lg" data-i18n="about.cta2">Prenota una sessione conoscitiva</a>
         </div>
-
-      </div><!-- /about-text -->
-    </div><!-- /about-grid -->
+      </div>
+    </div>
   </div>
 </section>
-
-<div class="rainbow-divider"></div>
 
 <!-- APPROACH SECTION -->
 <section class="section">
   <div class="container">
-    <div class="s-head reveal" style="text-align:center;margin-bottom:48px">
-      <p class="label" style="margin-bottom:12px" data-i18n="about.approach.label">Il mio approccio</p>
+    <div class="s-head text-center reveal" style="margin-bottom:48px">
+      <span class="eyebrow" style="display:block;margin-bottom:0.75rem" data-i18n="about.approach.label">Il mio approccio</span>
       <h2 class="heading" data-i18n="about.approach.title">Come lavoro con te</h2>
-      <p class="subheading reveal reveal-d1" style="max-width:540px;margin:16px auto 0" data-i18n="about.approach.sub">Ogni seduta è uno spazio vivo, dove teoria e pratica si fondono al servizio della tua crescita personale.</p>
+      <p class="subheading reveal reveal-d1" style="max-width:540px;margin:1rem auto 0" data-i18n="about.approach.sub">Ogni seduta è uno spazio vivo, dove teoria e pratica si fondono al servizio della tua crescita personale.</p>
     </div>
 
-    <div class="approach-cols reveal reveal-d1" style="display:grid;grid-template-columns:1fr 1fr;gap:40px;max-width:880px;margin:0 auto">
-
-      <div style="padding:32px;background:var(--ghost);border-radius:var(--r-card);border:1px solid var(--ash)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-          <div style="width:40px;height:40px;background:var(--ink);border-radius:var(--r-input);display:grid;place-items:center;flex-shrink:0">
+    <div class="process-grid reveal reveal-d1" style="max-width:880px;margin:0 auto">
+      <div class="process-step">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:40px;height:40px;background:var(--ink);border-radius:var(--r);display:grid;place-items:center;flex-shrink:0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
           </div>
-          <h3 class="heading-sm" data-i18n="about.cbt.title">CBT — Terapia Cognitivo-Comportamentale</h3>
         </div>
-        <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="about.cbt.desc">
-          La CBT è uno dei trattamenti più studiati e validati per ansia, depressione e molti altri disturbi. Si basa sull'idea che pensieri, emozioni e comportamenti siano interconnessi: modificando i pattern di pensiero disfunzionali è possibile migliorare il benessere emotivo e il comportamento. Le sedute sono strutturate, orientate agli obiettivi e spesso includono esercizi pratici da svolgere nella vita quotidiana.
-        </p>
+        <h3 data-i18n="about.cbt.title">CBT — Terapia Cognitivo-Comportamentale</h3>
+        <p data-i18n="about.cbt.desc">La CBT è uno dei trattamenti più studiati e validati per ansia, depressione e molti altri disturbi. Si basa sull'idea che pensieri, emozioni e comportamenti siano interconnessi: modificando i pattern di pensiero disfunzionali è possibile migliorare il benessere emotivo e il comportamento. Le sedute sono strutturate, orientate agli obiettivi e spesso includono esercizi pratici da svolgere nella vita quotidiana.</p>
       </div>
 
-      <div style="padding:32px;background:var(--ghost);border-radius:var(--r-card);border:1px solid var(--ash)">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:20px">
-          <div style="width:40px;height:40px;background:var(--ink);border-radius:var(--r-input);display:grid;place-items:center;flex-shrink:0">
+      <div class="process-step reveal reveal-d1">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:8px">
+          <div style="width:40px;height:40px;background:var(--sage);border-radius:var(--r);display:grid;place-items:center;flex-shrink:0">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 8v4M8 12h8"/></svg>
           </div>
-          <h3 class="heading-sm" data-i18n="about.act.title">ACT — Acceptance and Commitment Therapy</h3>
         </div>
-        <p style="font-size:.875rem;color:var(--slate);line-height:1.8" data-i18n="about.act.desc">
-          L'ACT appartiene alla terza generazione delle terapie cognitive e comportamentali. Piuttosto che combattere pensieri e sensazioni difficili, l'ACT ti insegna ad accettarli con consapevolezza e flessibilità, e a scegliere azioni in linea con i tuoi valori profondi. Il risultato è una vita più ricca e significativa, anche in presenza di difficoltà: non l'assenza del dolore, ma la capacità di muoversi verso ciò che conta davvero per te.
-        </p>
+        <h3 data-i18n="about.act.title">ACT — Acceptance and Commitment Therapy</h3>
+        <p data-i18n="about.act.desc">L'ACT appartiene alla terza generazione delle terapie cognitive e comportamentali. Piuttosto che combattere pensieri e sensazioni difficili, l'ACT ti insegna ad accettarli con consapevolezza e flessibilità, e a scegliere azioni in linea con i tuoi valori profondi. Il risultato è una vita più ricca e significativa, anche in presenza di difficoltà.</p>
       </div>
-
-    </div>
-
-    <div class="reveal reveal-d2" style="text-align:center;margin-top:40px;padding:24px;border:1px solid var(--ash);border-radius:var(--r-card);max-width:640px;margin-left:auto;margin-right:auto">
-      <p style="font-size:.95rem;color:var(--slate);line-height:1.75;font-style:italic;font-family:var(--f-display)" data-i18n="about.quote">
-        "Il mio obiettivo non è diventare indispensabile per te, ma darti gli strumenti per fiorire da solo."
-      </p>
-      <p style="font-size:.78rem;color:var(--silver);margin-top:10px;font-weight:600;letter-spacing:.06em" data-i18n="about.quote.attr">— Ester Rinaldi, Psicologa Clinica</p>
     </div>
 
   </div>
 </section>
+
+<div class="pull-quote-section reveal">
+  <div class="container">
+    <p class="pull-quote-text" data-i18n="about.quote">
+      "Il mio obiettivo non è diventare indispensabile per te, ma darti gli strumenti per fiorire da solo."
+    </p>
+    <p class="pull-quote-attr" data-i18n="about.quote.attr">— Ester Rinaldi, Psicologa Clinica</p>
+  </div>
+</div>
 
 <!-- CTA BAND -->
 <div class="cta-band">
   <div class="container">
     <h2 class="heading reveal" data-i18n="cta.title">Pronta a fare il prossimo passo?</h2>
     <p class="reveal reveal-d1" data-i18n="cta.sub">Ho disponibilità per nuovi clienti. Le sessioni durano 50 minuti, online o in presenza.</p>
-    <a href="appointment.html" class="btn btn-ghost reveal reveal-d2" style="border-color:rgba(255,255,255,.3);color:#fff" data-i18n="cta.btn">Prenota la tua prima sessione</a>
+    <a href="appointment.html" class="btn btn-outline-white reveal reveal-d2" data-i18n="cta.btn">Prenota la tua prima sessione</a>
   </div>
 </div>
 
 <!-- FOOTER -->
 <footer class="footer">
-  <div class="footer-inner">
+  <div class="footer-grid">
     <div>
-      <div class="footer-brand-name">Ester Rinaldi</div>
-      <p class="footer-brand-desc" data-i18n="footer.desc">Psicologa clinica specializzata in ansia, depressione, transizioni di vita e crescita personale.</p>
+      <div class="footer-brand">Ester Rinaldi</div>
+      <p class="footer-desc" data-i18n="footer.desc">Psicologa clinica specializzata in ansia, depressione, transizioni di vita e crescita personale.</p>
     </div>
     <div>
       <div class="footer-col-title" data-i18n="footer.nav">Navigazione</div>
@@ -210,7 +216,10 @@
   </div>
 </footer>
 
-<div class="cookie-bar" id="cookie-bar"><p id="cookie-p" data-i18n-html="cookie.p">Questo sito utilizza cookie essenziali.</p><button class="btn btn-filled btn-sm" id="cookie-ok" data-i18n="cookie.btn">Accetta</button></div>
+<div class="cookie-bar" id="cookie-bar">
+  <p id="cookie-p" data-i18n-html="cookie.p">Questo sito utilizza cookie essenziali.</p>
+  <button class="btn btn-primary btn-sm" id="cookie-ok" data-i18n="cookie.btn">Accetta</button>
+</div>
 <script src="js/main.js"></script>
 </body>
 </html>
