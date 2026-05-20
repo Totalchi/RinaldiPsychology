@@ -9,26 +9,26 @@
 /* ── Design Tokens ── */
 :root {
   /* Sage green — calm, healing, growth */
-  --sage:       #6B8F71;
-  --sage-d:     #4E7055;
-  --sage-l:     #EDF3EE;
-  --sage-xl:    #F6FAF6;
+  --sage:       #6B9270;
+  --sage-d:     #4D7254;
+  --sage-l:     #E4EFDF;
+  --sage-xl:    #F2F7F0;
 
   /* Clay / terracotta — warmth, human */
-  --clay:       #B8755A;
-  --clay-d:     #9C5F45;
-  --clay-l:     #F8EDE7;
+  --clay:       #C4785C;
+  --clay-d:     #A6604A;
+  --clay-l:     #FAECE4;
 
   /* Neutrals — warm toned */
-  --ivory:      #FAF9F6;
-  --cream:      #F3F0E8;
+  --ivory:      #FBF8F2;
+  --cream:      #EDE7D8;
   --warm-white: #FFFFFF;
   --ink:        #1C1916;
   --ink-2:      #3A342E;
-  --stone:      #7C7068;
-  --stone-2:    #A89E94;
-  --border:     #E6E0D4;
-  --border-2:   #D4CCBE;
+  --stone:      #6E665E;
+  --stone-2:    #A09690;
+  --border:     #DDD7C9;
+  --border-2:   #CEC7B6;
 
   /* Typography */
   --f-display: 'Playfair Display', Georgia, 'Times New Roman', serif;
